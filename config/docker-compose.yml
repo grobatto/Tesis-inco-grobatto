@@ -1,0 +1,107 @@
+# docker-compose.yml
+# Configuración para ejecutar múltiples modelos LLM en IBM Power10
+#
+# Uso:
+#   docker-compose up -d           # Iniciar todos los servicios
+#   docker-compose up -d qwen-7b   # Iniciar solo un servicio
+#   docker-compose logs -f         # Ver logs
+#   docker-compose down            # Detener todos
+
+version: '3.8'
+
+services:
+  # Qwen 2.5 7B - Balance ideal entre calidad y velocidad
+  qwen-7b:
+    image: quay.io/daniel_casali/llama.cpp-mma:v8
+    container_name: qwen-7b
+    ports:
+      - "8089:8080"
+    volumes:
+      - ~/models:/models:ro
+    command: >
+      --host 0.0.0.0
+      --port 8080
+      -m /models/Qwen2.5-7B-Instruct-Q4_K_M.gguf
+      -c 4096
+      -b 256
+      -t 12
+      -n -1
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 8G
+
+  # Mistral 7B - Rápido y eficiente
+  mistral-7b:
+    image: quay.io/daniel_casali/llama.cpp-mma:v8
+    container_name: mistral-7b
+    ports:
+      - "8088:8080"
+    volumes:
+      - ~/models:/models:ro
+    command: >
+      --host 0.0.0.0
+      --port 8080
+      -m /models/Mistral-7B-Instruct-v0.3-Q4_K_S.gguf
+      -c 4096
+      -b 256
+      -t 8
+      -n -1
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 6G
+
+  # Llama 3 8B - Meta's latest
+  llama3-8b:
+    image: quay.io/daniel_casali/llama.cpp-mma:v8
+    container_name: llama3-8b
+    ports:
+      - "8090:8080"
+    volumes:
+      - ~/models:/models:ro
+    command: >
+      --host 0.0.0.0
+      --port 8080
+      -m /models/Meta-Llama-3-8B-Instruct-Q4_K_M.gguf
+      -c 4096
+      -b 256
+      -t 8
+      -n -1
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 8G
+
+  # Qwen 2.5 14B - Mayor capacidad (requiere más RAM)
+  qwen-14b:
+    image: quay.io/daniel_casali/llama.cpp-mma:v8
+    container_name: qwen-14b
+    ports:
+      - "8091:8080"
+    volumes:
+      - ~/models:/models:ro
+    command: >
+      --host 0.0.0.0
+      --port 8080
+      -m /models/Qwen2.5-14B-Instruct-Q4_K_M.gguf
+      -c 2048
+      -b 128
+      -t 8
+      -n -1
+    restart: always
+    profiles:
+      - large  # Solo se inicia con: docker-compose --profile large up
+    deploy:
+      resources:
+        limits:
+          memory: 16G
+
+# Notas:
+# - Los modelos deben estar descargados en ~/models/
+# - Para descargar: ./scripts/install-model.sh <modelo> <puerto>
+# - Ajustar threads (-t) según la carga del sistema
+# - El perfil "large" requiere más RAM y debe iniciarse explícitamente
