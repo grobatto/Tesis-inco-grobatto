@@ -20,7 +20,7 @@
 | Franco Subirán | Desarrollo |
 
 **Tutor:** Sebastián Garcia Parra
-**Cliente:** INCO Soluciones (Socio estratégico de IBM)
+**Cliente:** INCO Soluciones 
 
 ---
 
