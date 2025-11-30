@@ -67,34 +67,7 @@ Este repositorio contiene la implementación práctica de una **Prueba de Concep
 
 ## Arquitectura
 
-```
-┌──────────────────────────────────────────────────────────────────┐
-│                        USUARIO FINAL                              │
-│                    (API REST / curl / App)                        │
-└─────────────────────────────┬────────────────────────────────────┘
-                              │ HTTP Request
-                              ▼
-┌──────────────────────────────────────────────────────────────────┐
-│                     IBM Power Virtual Server                      │
-│                      (CentOS Stream 9)                            │
-│  ┌────────────────────────────────────────────────────────────┐  │
-│  │                    CONTENEDOR DOCKER                        │  │
-│  │              quay.io/daniel_casali/llama.cpp-mma:v8        │  │
-│  │  ┌──────────────────────────────────────────────────────┐  │  │
-│  │  │               llama.cpp Server                        │  │  │
-│  │  │         (Optimizado para POWER10 + MMA)               │  │  │
-│  │  └──────────────────────────────────────────────────────┘  │  │
-│  │                          │                                  │  │
-│  │                          ▼                                  │  │
-│  │  ┌──────────────────────────────────────────────────────┐  │  │
-│  │  │            MODELO GGUF CUANTIZADO                     │  │  │
-│  │  │     (Qwen2.5-7B / Mistral-7B / Llama-3-8B)           │  │  │
-│  │  └──────────────────────────────────────────────────────┘  │  │
-│  └────────────────────────────────────────────────────────────┘  │
-│                                                                   │
-│  Volumen: ~/models → /models                                      │
-└──────────────────────────────────────────────────────────────────┘
-```
+![Arquitectura del Sistema](images/arquitectura.jpeg)
 
 ---
 
@@ -150,40 +123,7 @@ curl -X POST http://localhost:8089/completion \
 
 ## Especificaciones del Servidor
 
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                     ESPECIFICACIONES DEL SERVIDOR                           │
-├─────────────────────────────────────────────────────────────────────────────┤
-│ Hostname:        demo-inco-power-ai.cloud.ibm.com                           │
-│ Sistema Op.:     CentOS Stream 9                                            │
-│ Arquitectura:    ppc64le (PowerPC 64-bit Little Endian)                     │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                              PROCESADOR                                      │
-├─────────────────────────────────────────────────────────────────────────────┤
-│ Modelo:          IBM POWER10                                                 │
-│ CPUs Virtuales:  96 vCPUs                                                    │
-│ Sockets:         2                                                           │
-│ Cores/Socket:    6 (12 cores físicos totales)                               │
-│ Threads/Core:    8 (SMT-8)                                                   │
-│ Nodos NUMA:      2                                                           │
-│ Virtualización:  pHyp (PowerVM Hypervisor)                                  │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                               MEMORIA                                        │
-├─────────────────────────────────────────────────────────────────────────────┤
-│ RAM Total:       28 GB                                                       │
-│ RAM Disponible:  ~24 GB                                                      │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                           ALMACENAMIENTO                                     │
-├─────────────────────────────────────────────────────────────────────────────┤
-│ Disco Principal: 120 GB                                                      │
-│ Espacio Libre:   ~85 GB                                                      │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                              SOFTWARE                                        │
-├─────────────────────────────────────────────────────────────────────────────┤
-│ Docker:          v28.5.2                                                     │
-│ Kernel:          5.14.0-642.el9.ppc64le                                      │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
+![Especificaciones del Servidor](images/especificaciones-servidor.jpeg)
 
 ---
 
@@ -291,21 +231,7 @@ Ver documentación completa: [06-benchmark-anonimizacion.md](docs/06-benchmark-a
 
 ## Stack Tecnológico
 
-```
-┌─────────────────────────────────────────────────────┐
-│                    Open WebUI                        │
-│              (Interfaz de Usuario)                   │
-├─────────────────────────────────────────────────────┤
-│              llama.cpp Server                        │
-│         (Motor de Inferencia + MMA)                  │
-├─────────────────────────────────────────────────────┤
-│          Modelo GGUF Cuantizado                      │
-│     (Qwen2.5-7B / Llama 3.1 / Mistral)              │
-├─────────────────────────────────────────────────────┤
-│              IBM Power10/11                          │
-│      (Aceleradores MMA - 4 unidades/core)           │
-└─────────────────────────────────────────────────────┘
-```
+![Stack Tecnológico](images/stack-tecnologico.jpeg)
 
 ---
 
