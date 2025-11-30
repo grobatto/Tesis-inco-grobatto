@@ -220,6 +220,7 @@ https://huggingface.co/bartowski/Meta-Llama-3-8B-Instruct-GGUF/resolve/main/Meta
 | [03-huggingface-models.md](docs/03-huggingface-models.md) | Cómo descargar modelos de Hugging Face |
 | [04-llama-cpp-mma.md](docs/04-llama-cpp-mma.md) | Configuración de llama.cpp con aceleradores MMA |
 | [05-benchmarking.md](docs/05-benchmarking.md) | Guía de benchmarking y métricas |
+| [06-benchmark-anonimizacion.md](docs/06-benchmark-anonimizacion.md) | **Benchmark de anonimización clínica** |
 
 ---
 
@@ -250,6 +251,27 @@ https://huggingface.co/bartowski/Meta-Llama-3-8B-Instruct-GGUF/resolve/main/Meta
 | Generación (tokens/seg) | ~16.6 |
 | Latencia primer token | ~500ms |
 | Contexto máximo | 4096 tokens |
+
+### Benchmark de Anonimización Clínica
+
+Script especializado para evaluar la capacidad de anonimización de historiales clínicos.
+
+```bash
+# Ejecutar benchmark de anonimización
+cd benchmarks
+python benchmark_anon.py --port 8089
+
+# Ejecutar en todos los modelos
+./run_all_models.sh
+```
+
+| Modelo | TPS Esperado | Calidad Anonimización |
+|--------|--------------|----------------------|
+| Qwen2.5-7B | ~15-20 | Muy buena |
+| Mistral-7B | ~18-22 | Buena |
+| Llama-3.1-8B | ~14-18 | Excelente (medicina) |
+
+Ver documentación completa: [06-benchmark-anonimizacion.md](docs/06-benchmark-anonimizacion.md)
 
 ---
 
