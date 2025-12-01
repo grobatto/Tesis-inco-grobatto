@@ -129,24 +129,42 @@ curl -X POST http://localhost:8089/completion \
 
 ## Modelos Disponibles
 
-| Modelo | Tamaño | Puerto | RAM Requerida | Uso Recomendado |
-|--------|--------|--------|---------------|-----------------|
-| Mistral-7B | ~4 GB | 8088 | 16 GB | General, rápido |
-| **Qwen2.5-7B** | ~4.7 GB | 8089 | 16 GB | Balance ideal |
-| Llama-3-8B | ~4.7 GB | 8090 | 16 GB | Meta's latest |
-| Qwen2.5-14B | ~8 GB | 8091 | 24 GB | Mayor capacidad |
+### Seleccionados para Benchmark de Anonimización Clínica
 
-### URLs de Descarga (Hugging Face)
+| Modelo | Tamaño | Puerto | Fabricante | Caso de Uso |
+|--------|--------|--------|------------|-------------|
+| **Phi-3.5-mini** | 2.3 GB | 8093 | Microsoft | Mejor relación calidad/tamaño, contexto 128K |
+| **BioMistral-7B** | 4.1 GB | 8092 | CNRS | Especializado en dominio médico (PubMed) |
+| **Gemma-2-9B** | 5.4 GB | 8094 | Google | Excelente seguimiento de instrucciones |
+| Llama-3.1-8B | 4.6 GB | 8091 | Meta | General (guardrails estrictos) |
+| Llama-3.2-3B | 1.9 GB | 8095 | Meta | Ultra-rápido (guardrails estrictos) |
+
+### Por qué estos modelos
+
+| Modelo | Justificación | Referencia |
+|--------|---------------|------------|
+| **Phi-3.5-mini** | Supera modelos 2x más grandes en benchmarks, ideal para edge | [Microsoft](https://huggingface.co/microsoft/Phi-3.5-mini-instruct) |
+| **BioMistral-7B** | Pre-entrenado en PubMed, +18% vs Meditron en MMLU médico, evaluado en español | [Paper](https://arxiv.org/abs/2402.10373) |
+| **Gemma-2-9B** | Mejor modelo Google para instrucciones complejas | [Google](https://huggingface.co/google/gemma-2-9b-it) |
+| **Llama-3.1-8B** | 98.2% precisión en anonimización médica según NEJM AI | [LLM-Anonymizer](https://ai.nejm.org/doi/full/10.1056/AIdbp2400537) |
+
+### URLs de Descarga (Hugging Face - GGUF Q4_K_M)
 
 ```bash
-# Mistral 7B
-https://huggingface.co/bartowski/Mistral-7B-Instruct-v0.3-GGUF/resolve/main/Mistral-7B-Instruct-v0.3-Q4_K_S.gguf
+# Phi-3.5 mini (Microsoft) - RECOMENDADO
+https://huggingface.co/bartowski/Phi-3.5-mini-instruct-GGUF/resolve/main/Phi-3.5-mini-instruct-Q4_K_M.gguf
 
-# Qwen 2.5 7B
-https://huggingface.co/bartowski/Qwen2.5-7B-Instruct-GGUF/resolve/main/Qwen2.5-7B-Instruct-Q4_K_M.gguf
+# BioMistral-7B (Médico)
+https://huggingface.co/BioMistral/BioMistral-7B-GGUF/resolve/main/ggml-model-Q4_K_M.gguf
 
-# Llama 3 8B
-https://huggingface.co/bartowski/Meta-Llama-3-8B-Instruct-GGUF/resolve/main/Meta-Llama-3-8B-Instruct-Q4_K_M.gguf
+# Gemma 2 9B (Google)
+https://huggingface.co/bartowski/gemma-2-9b-it-GGUF/resolve/main/gemma-2-9b-it-Q4_K_M.gguf
+
+# Llama 3.1 8B (Meta)
+https://huggingface.co/bartowski/Meta-Llama-3.1-8B-Instruct-GGUF/resolve/main/Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf
+
+# Llama 3.2 3B (Meta - Edge)
+https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-GGUF/resolve/main/Llama-3.2-3B-Instruct-Q4_K_M.gguf
 ```
 
 ---
@@ -183,33 +201,29 @@ https://huggingface.co/bartowski/Meta-Llama-3-8B-Instruct-GGUF/resolve/main/Meta
 
 ## Benchmarks
 
-### Rendimiento de Qwen2.5-7B en Power10
+### Resultados de Anonimización Clínica (30 Nov 2025)
 
-| Métrica | Valor |
-|---------|-------|
-| Prompt (tokens/seg) | ~26 |
-| Generación (tokens/seg) | ~16.6 |
-| Latencia primer token | ~500ms |
-| Contexto máximo | 4096 tokens |
+Evaluación de 5 modelos para anonimización de historiales clínicos en español.
 
-### Benchmark de Anonimización Clínica
+| Modelo | TPS | Calidad | Resultado |
+|--------|-----|---------|-----------|
+| **Phi-3.5-mini** | 16.8 | ★★★★★ | Anonimizó todo correctamente, incluyendo nombres de médicos |
+| **BioMistral-7B** | 13.1 | ★★★★☆ | Anonimizó encabezado correctamente |
+| **Gemma-2-9B** | 9.6 | ★★★☆☆ | Anonimizó encabezado, dejó nombres de médicos |
+| Llama-3.1-8B | 13.2 | ❌ | Rechazó: "No puedo anonimizar información de personas reales" |
+| Llama-3.2-3B | 22.4 | ❌ | Rechazó: "No puedo cumplir con esa solicitud" |
 
-Script especializado para evaluar la capacidad de anonimización de historiales clínicos.
+### Recomendación
 
-```bash
-# Ejecutar benchmark de anonimización
-cd benchmarks
-python benchmark_anon.py --port 8089
+**Phi-3.5-mini** es el modelo recomendado para anonimización clínica:
+- Mejor calidad de anonimización (detecta todos los PHI)
+- Excelente velocidad (16.8 TPS)
+- Tamaño compacto (2.3 GB)
+- Preserva datos clínicos sin modificar
 
-# Ejecutar en todos los modelos
-./run_all_models.sh
-```
+### Nota sobre Llama
 
-| Modelo | TPS Esperado | Calidad Anonimización |
-|--------|--------------|----------------------|
-| Qwen2.5-7B | ~15-20 | Muy buena |
-| Mistral-7B | ~18-22 | Buena |
-| Llama-3.1-8B | ~14-18 | Excelente (medicina) |
+Los modelos Llama 3.x tienen guardrails de seguridad que impiden procesar datos personales reales, incluso para anonimización. Esto los hace inadecuados para este caso de uso específico, a pesar de su excelente rendimiento en otros benchmarks médicos.
 
 Ver documentación completa: [06-benchmark-anonimizacion.md](docs/06-benchmark-anonimizacion.md)
 
@@ -281,8 +295,16 @@ free -h
 
 ### Modelos
 
-- [bartowski/Qwen2.5-7B-Instruct-GGUF](https://huggingface.co/bartowski/Qwen2.5-7B-Instruct-GGUF)
-- [bartowski/Mistral-7B-Instruct-v0.3-GGUF](https://huggingface.co/bartowski/Mistral-7B-Instruct-v0.3-GGUF)
+- [bartowski/Phi-3.5-mini-instruct-GGUF](https://huggingface.co/bartowski/Phi-3.5-mini-instruct-GGUF) - Microsoft
+- [BioMistral/BioMistral-7B-GGUF](https://huggingface.co/BioMistral/BioMistral-7B-GGUF) - CNRS
+- [bartowski/gemma-2-9b-it-GGUF](https://huggingface.co/bartowski/gemma-2-9b-it-GGUF) - Google
+- [bartowski/Meta-Llama-3.1-8B-Instruct-GGUF](https://huggingface.co/bartowski/Meta-Llama-3.1-8B-Instruct-GGUF) - Meta
+- [bartowski/Llama-3.2-3B-Instruct-GGUF](https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-GGUF) - Meta
+
+### Investigación
+
+- [The LLM-Anonymizer - NEJM AI](https://ai.nejm.org/doi/full/10.1056/AIdbp2400537) - Benchmark de anonimización médica
+- [BioMistral Paper](https://arxiv.org/abs/2402.10373) - Modelo médico multilingüe
 
 ### Herramientas
 

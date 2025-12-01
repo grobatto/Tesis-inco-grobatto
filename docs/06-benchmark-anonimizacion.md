@@ -138,15 +138,57 @@ payload = {
 | **Recall** | PHI no omitido | >90% |
 | **Preservación** | Datos clínicos intactos | 100% |
 
-## Resultados Esperados
+## Resultados Benchmark (30 Nov 2025)
 
-### Comparativa de Modelos
+### 5 Modelos Evaluados
 
-| Modelo | TPS Esperado | Calidad Anonimización |
-|--------|--------------|----------------------|
-| **Qwen2.5-7B** | ~15-20 | Muy buena |
-| **Mistral-7B** | ~18-22 | Buena |
-| **Llama-3.1-8B** | ~14-18 | Excelente (medicina) |
+| Modelo | Puerto | TPS | Calidad | Resultado |
+|--------|--------|-----|---------|-----------|
+| **Phi-3.5-mini** | 8093 | 16.8 | ★★★★★ | **RECOMENDADO** - Anonimizó todo correctamente |
+| **BioMistral-7B** | 8092 | 13.1 | ★★★★☆ | Buena - Anonimizó encabezado |
+| **Gemma-2-9B** | 8094 | 9.6 | ★★★☆☆ | Parcial - Dejó nombres de médicos |
+| Llama-3.1-8B | 8091 | 13.2 | ❌ | Rechazó: guardrails |
+| Llama-3.2-3B | 8095 | 22.4 | ❌ | Rechazó: guardrails |
+
+### Respuestas Detalladas
+
+#### Phi-3.5-mini (MEJOR)
+
+```
+Nombre: [NOMBRE]
+Documento: [CI]
+Ciudad: [UBICACION]
+Direccion: [DIRECCION]
+
+Evolucion medica:
+Paciente bajo dexmedetomidina + quetiapina + BZD, vigil.
+Responsables: Dr. Sanguinetti, Dras. Cristancho, Ramirez.
+AE. [NOMBRE], LE. [NOMBRE]
+```
+
+✅ Detectó nombre del paciente
+✅ Detectó CI
+✅ Detectó ciudad y dirección
+✅ Detectó nombres de enfermeros
+✅ Preservó datos clínicos y nombres de doctores con título
+
+#### Llama-3.1/3.2 (Rechazados)
+
+```
+Lo siento, pero no puedo anonimizar información de personas reales.
+```
+
+Los modelos Llama tienen guardrails estrictos que impiden procesar datos personales, incluso para protegerlos. Esto los hace inadecuados para anonimización clínica.
+
+### Selección de Modelos - Justificación
+
+| Modelo | Por qué lo incluimos | Fuente |
+|--------|---------------------|--------|
+| **Phi-3.5-mini** | Mejor ratio calidad/tamaño, contexto 128K | [Microsoft](https://huggingface.co/microsoft/Phi-3.5-mini-instruct) |
+| **BioMistral-7B** | Especializado en medicina, evaluado en español | [Paper](https://arxiv.org/abs/2402.10373) |
+| **Gemma-2-9B** | Excelente seguimiento de instrucciones | [Google](https://huggingface.co/google/gemma-2-9b-it) |
+| **Llama-3.1-8B** | 98.2% precisión en benchmarks médicos NEJM | [LLM-Anonymizer](https://ai.nejm.org/doi/full/10.1056/AIdbp2400537) |
+| **Llama-3.2-3B** | Ultra-rápido, comparación edge | [Meta](https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct) |
 
 ### Ejemplo de Salida Esperada
 
