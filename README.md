@@ -11,17 +11,6 @@
 >
 > *Optimización Estratégica y Aplicación de Inteligencia Artificial (Machine Learning e IA Generativa) en Infraestructuras de Alto Rendimiento IBM Power*
 
-## Integrantes
-
-| Nombre | Rol |
-|--------|-----|
-| Agustina Albez | Desarrollo |
-| **Guillermo Robatto** | Desarrollo |
-| Franco Subirán | Desarrollo |
-
-**Tutor:** Sebastián Garcia Parra
-**Cliente:** INCO Soluciones 
-
 ---
 
 ## Tabla de Contenidos
