@@ -44,9 +44,17 @@
 
 Este repositorio contiene la implementación práctica de una **Prueba de Concepto (PoC)** para demostrar el valor de los aceleradores **Matrix Math Accelerator (MMA)** integrados en los procesadores IBM Power10/Power11 para la ejecución de modelos de lenguaje grandes (LLMs) en infraestructura on-premise.
 
-### Caso de Uso Principal
+### Caso de Uso Principal: Des-identificación de Datos Clínicos
 
-**Anonimización automática de historiales clínicos** de la Facultad de Medicina de la Universidad de la República (UdelaR), eliminando información de salud protegida (PHI) mientras se preserva la utilidad clínica del contenido.
+La **Facultad de Medicina de la Universidad de la República (UdelaR)** genera y almacena volúmenes significativos de documentación clínica. Estos registros contienen **información de salud protegida (Protected Health Information, PHI)** que incluye identificadores directos e indirectos de los pacientes. La utilización secundaria de estos datos para investigación, docencia o desarrollo de sistemas de inteligencia artificial requiere un proceso previo de des-identificación que elimine o enmascare la información sensible sin comprometer la utilidad clínica del contenido.
+
+#### Contexto Internacional
+
+El desafío de des-identificación de texto clínico ha sido abordado sistemáticamente por la comunidad científica internacional. El proyecto **i2b2** (Informatics for Integrating Biology and the Bedside) del Centro Nacional de Informática Biomédica de Estados Unidos estableció en 2014 un desafío compartido que se ha convertido en el estándar de referencia para evaluar sistemas de anonimización. Según Stubbs et al. (2015), este desafío proporcionó un corpus de **1,304 notas clínicas longitudinales** de 296 pacientes diabéticos, conteniendo más de **28,000 instancias de PHI** distribuidas en 25 subcategorías agrupadas en siete categorías principales: nombres, profesiones, ubicaciones, edades, fechas, contactos e identificadores.
+
+#### Objetivo
+
+Implementar un sistema de **anonimización automática de historiales clínicos en español** que permita procesar documentación médica de la Facultad de Medicina de UdelaR, eliminando o enmascarando información de salud protegida mientras se preserva la utilidad clínica del contenido para fines de investigación y docencia.
 
 ---
 
@@ -129,29 +137,40 @@ curl -X POST http://localhost:8089/completion \
 
 ## Modelos Disponibles
 
-### Seleccionados para Benchmark de Anonimización Clínica
+### Modelos Grandes (Recomendados para Producción)
 
-| Modelo | Tamaño | Puerto | Fabricante | Caso de Uso |
-|--------|--------|--------|------------|-------------|
-| **Phi-3.5-mini** | 2.3 GB | 8093 | Microsoft | Mejor relación calidad/tamaño, contexto 128K |
-| **BioMistral-7B** | 4.1 GB | 8092 | CNRS | Especializado en dominio médico (PubMed) |
-| **Gemma-2-9B** | 5.4 GB | 8094 | Google | Excelente seguimiento de instrucciones |
-| Llama-3.1-8B | 4.6 GB | 8091 | Meta | General (guardrails estrictos) |
-| Llama-3.2-3B | 1.9 GB | 8095 | Meta | Ultra-rápido (guardrails estrictos) |
+| Modelo | Tamaño | Puerto | Fabricante | TPS | Calidad |
+|--------|--------|--------|------------|-----|---------|
+| **Mistral-Nemo-12B** | 7.1 GB | 8097 | Mistral AI | 9.2 | ★★★★★ **MEJOR** |
+| **Qwen2.5-14B** | 8.6 GB | 8096 | Alibaba | 6.5 | ★★★★☆ |
+
+### Modelos Medianos (Balance Velocidad/Calidad)
+
+| Modelo | Tamaño | Puerto | Fabricante | TPS | Calidad |
+|--------|--------|--------|------------|-----|---------|
+| **Phi-3.5-mini** | 2.3 GB | 8093 | Microsoft | 16.8 | ★★★★★ |
+| **BioMistral-7B** | 4.1 GB | 8092 | CNRS | 13.1 | ★★★★☆ |
+| **Gemma-2-9B** | 5.4 GB | 8094 | Google | 9.6 | ★★★☆☆ |
 
 ### Por qué estos modelos
 
 | Modelo | Justificación | Referencia |
 |--------|---------------|------------|
-| **Phi-3.5-mini** | Supera modelos 2x más grandes en benchmarks, ideal para edge | [Microsoft](https://huggingface.co/microsoft/Phi-3.5-mini-instruct) |
-| **BioMistral-7B** | Pre-entrenado en PubMed, +18% vs Meditron en MMLU médico, evaluado en español | [Paper](https://arxiv.org/abs/2402.10373) |
-| **Gemma-2-9B** | Mejor modelo Google para instrucciones complejas | [Google](https://huggingface.co/google/gemma-2-9b-it) |
-| **Llama-3.1-8B** | 98.2% precisión en anonimización médica según NEJM AI | [LLM-Anonymizer](https://ai.nejm.org/doi/full/10.1056/AIdbp2400537) |
+| **Mistral-Nemo-12B** | Mejor multilingüe de Mistral, colaboración con NVIDIA, Apache 2.0 | [Mistral AI](https://mistral.ai/news/mistral-nemo) |
+| **Qwen2.5-14B** | Mejoras en seguimiento de instrucciones y JSON, 29+ idiomas | [Qwen](https://huggingface.co/Qwen/Qwen2.5-14B-Instruct) |
+| **Phi-3.5-mini** | Supera modelos 2x más grandes, contexto 128K | [Microsoft](https://huggingface.co/microsoft/Phi-3.5-mini-instruct) |
+| **BioMistral-7B** | Pre-entrenado en PubMed, +18% vs Meditron, evaluado en español | [Paper](https://arxiv.org/abs/2402.10373) |
 
 ### URLs de Descarga (Hugging Face - GGUF Q4_K_M)
 
 ```bash
-# Phi-3.5 mini (Microsoft) - RECOMENDADO
+# Mistral-Nemo-12B (Mistral AI) - MEJOR CALIDAD
+https://huggingface.co/bartowski/Mistral-Nemo-Instruct-2407-GGUF/resolve/main/Mistral-Nemo-Instruct-2407-Q4_K_M.gguf
+
+# Qwen2.5-14B (Alibaba)
+https://huggingface.co/bartowski/Qwen2.5-14B-Instruct-GGUF/resolve/main/Qwen2.5-14B-Instruct-Q4_K_M.gguf
+
+# Phi-3.5 mini (Microsoft) - MEJOR VELOCIDAD
 https://huggingface.co/bartowski/Phi-3.5-mini-instruct-GGUF/resolve/main/Phi-3.5-mini-instruct-Q4_K_M.gguf
 
 # BioMistral-7B (Médico)
@@ -159,12 +178,6 @@ https://huggingface.co/BioMistral/BioMistral-7B-GGUF/resolve/main/ggml-model-Q4_
 
 # Gemma 2 9B (Google)
 https://huggingface.co/bartowski/gemma-2-9b-it-GGUF/resolve/main/gemma-2-9b-it-Q4_K_M.gguf
-
-# Llama 3.1 8B (Meta)
-https://huggingface.co/bartowski/Meta-Llama-3.1-8B-Instruct-GGUF/resolve/main/Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf
-
-# Llama 3.2 3B (Meta - Edge)
-https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-GGUF/resolve/main/Llama-3.2-3B-Instruct-Q4_K_M.gguf
 ```
 
 ---
@@ -203,27 +216,37 @@ https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-GGUF/resolve/main/Llama-3
 
 ### Resultados de Anonimización Clínica (30 Nov 2025)
 
-Evaluación de 5 modelos para anonimización de historiales clínicos en español.
+Evaluación de 7 modelos para anonimización de historiales clínicos en español.
+
+#### Modelos Grandes (12B-14B)
 
 | Modelo | TPS | Calidad | Resultado |
 |--------|-----|---------|-----------|
-| **Phi-3.5-mini** | 16.8 | ★★★★★ | Anonimizó todo correctamente, incluyendo nombres de médicos |
-| **BioMistral-7B** | 13.1 | ★★★★☆ | Anonimizó encabezado correctamente |
-| **Gemma-2-9B** | 9.6 | ★★★☆☆ | Anonimizó encabezado, dejó nombres de médicos |
-| Llama-3.1-8B | 13.2 | ❌ | Rechazó: "No puedo anonimizar información de personas reales" |
-| Llama-3.2-3B | 22.4 | ❌ | Rechazó: "No puedo cumplir con esa solicitud" |
+| **Mistral-Nemo-12B** | 9.2 | ★★★★★ | **MEJOR** - Anonimizó TODO incluyendo doctores y enfermeros |
+| **Qwen2.5-14B** | 6.5 | ★★★★☆ | Anonimizó encabezado, dejó nombres de médicos |
 
-### Recomendación
+#### Modelos Medianos (3B-9B)
 
-**Phi-3.5-mini** es el modelo recomendado para anonimización clínica:
-- Mejor calidad de anonimización (detecta todos los PHI)
-- Excelente velocidad (16.8 TPS)
-- Tamaño compacto (2.3 GB)
-- Preserva datos clínicos sin modificar
+| Modelo | TPS | Calidad | Resultado |
+|--------|-----|---------|-----------|
+| **Phi-3.5-mini** | 16.8 | ★★★★★ | Excelente - Anonimizó todo correctamente |
+| **BioMistral-7B** | 13.1 | ★★★★☆ | Buena - Anonimizó encabezado |
+| **Gemma-2-9B** | 9.6 | ★★★☆☆ | Parcial - Dejó nombres de médicos |
 
-### Nota sobre Llama
+### Recomendaciones
 
-Los modelos Llama 3.x tienen guardrails de seguridad que impiden procesar datos personales reales, incluso para anonimización. Esto los hace inadecuados para este caso de uso específico, a pesar de su excelente rendimiento en otros benchmarks médicos.
+| Caso de Uso | Modelo Recomendado | Por qué |
+|-------------|-------------------|---------|
+| **Máxima calidad** | Mistral-Nemo-12B | Detecta TODOS los PHI incluyendo personal médico |
+| **Balance velocidad/calidad** | Phi-3.5-mini | 16.8 TPS con excelente calidad, solo 2.3 GB |
+| **Dominio médico** | BioMistral-7B | Especializado en PubMed, evaluado en español |
+
+### Ejemplo: Mistral-Nemo-12B (Mejor resultado)
+
+```
+Entrada: Dr. Sanguinetti, Dras. Cristancho, Ramirez. AE. M. Brown, LE. J. Bremmerman
+Salida:  Dr. [NOMBRE], Dras. [NOMBRE], [NOMBRE]. AE. [NOMBRE], LE. [NOMBRE]
+```
 
 Ver documentación completa: [06-benchmark-anonimizacion.md](docs/06-benchmark-anonimizacion.md)
 
