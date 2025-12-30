@@ -6,12 +6,19 @@ Universidad de Montevideo - Tesis 2025
 Contiene diferentes estrategias de prompting para evaluar cuál produce
 mejores resultados en la tarea de anonimización de datos clínicos.
 
-Estrategias:
-- baseline: Instrucción mínima
+Basado en metodología de papers académicos:
+- arXiv:2412.10918 - LLMs-in-the-Loop Part 2
+- arXiv:2406.00062 - Unlocking LLMs for Clinical Text Anonymization
+
+Estrategias (8 total):
+- baseline: Instrucción mínima (zero-shot simple)
 - detailed: Instrucciones completas (prompt original del proyecto)
 - few_shot: Ejemplos antes del texto
 - chain_of_thought: Razonamiento paso a paso
 - master_tutor: Prompt sugerido por el tutor
+- medico: Enfoque en Ley 18.331 y terminología PHI
+- structured_output: Formato JSON estructurado
+- hybrid: Combina few-shot + chain-of-thought
 """
 
 # =============================================================================
@@ -175,6 +182,65 @@ Devuelve SOLO el texto anonimizado:
 {text}"""
 
 # =============================================================================
+# PROMPT STRUCTURED OUTPUT - Formato JSON estructurado
+# =============================================================================
+
+PROMPT_STRUCTURED_OUTPUT = """Anonimiza el siguiente texto clínico y devuelve el resultado en formato estructurado.
+
+TAREA: Identificar y reemplazar toda la Información de Salud Protegida (PHI).
+
+CATEGORÍAS PHI A DETECTAR:
+1. NOMBRE: Nombres de pacientes, médicos, familiares, enfermeros
+2. CI: Cédula de identidad, documentos de identificación
+3. TELEFONO: Números de teléfono (fijos y móviles)
+4. DIRECCION: Calles, avenidas, números, apartamentos
+5. UBICACION: Ciudades, departamentos, hospitales, clínicas
+6. FECHA: Fechas de ingreso, alta, nacimiento, procedimientos
+7. REGISTRO: Números de historia clínica, expedientes
+
+FORMATO DE SALIDA:
+Devuelve ÚNICAMENTE el texto anonimizado usando los placeholders [NOMBRE], [CI], [TELEFONO], [DIRECCION], [UBICACION], [FECHA], [REGISTRO].
+
+NO incluyas explicaciones, listas de entidades encontradas, ni comentarios adicionales.
+
+TEXTO A ANONIMIZAR:
+{text}"""
+
+# =============================================================================
+# PROMPT HYBRID - Combina Few-Shot + Chain-of-Thought
+# =============================================================================
+
+PROMPT_HYBRID = """Eres un experto en des-identificación de registros médicos.
+
+=== EJEMPLOS DE REFERENCIA ===
+
+Ejemplo 1:
+Input: "Dr. Martínez evaluó a Pedro Gómez (CI 3.456.789-0) el 20/01/2024."
+Proceso: Identifico nombre médico (Martínez), nombre paciente (Pedro Gómez), CI (3.456.789-0), fecha (20/01/2024).
+Output: "Dr. [NOMBRE] evaluó a [NOMBRE] (CI [CI]) el [FECHA]."
+
+Ejemplo 2:
+Input: "Paciente de 45 años, residente en Colonia 1234 apto 5, Pocitos. Contacto: 099-888-777."
+Proceso: Identifico dirección (Colonia 1234 apto 5), barrio (Pocitos), teléfono (099-888-777). Edad se preserva.
+Output: "Paciente de 45 años, residente en [DIRECCION], [UBICACION]. Contacto: [TELEFONO]."
+
+Ejemplo 3:
+Input: "HC-2024-00123. Ingresa a CASMU derivado del Hospital Maciel con diagnóstico de IAM."
+Proceso: Identifico registro (HC-2024-00123), instituciones (CASMU, Hospital Maciel). Diagnóstico (IAM) se preserva.
+Output: "[REGISTRO]. Ingresa a [UBICACION] derivado del [UBICACION] con diagnóstico de IAM."
+
+=== AHORA ES TU TURNO ===
+
+PASO 1: Lee el texto e identifica todas las entidades PHI.
+PASO 2: Clasifica cada entidad en su categoría.
+PASO 3: Reemplaza por el placeholder correspondiente.
+PASO 4: Verifica que datos clínicos (diagnósticos, medicamentos, valores) permanezcan intactos.
+PASO 5: Devuelve SOLO el texto anonimizado.
+
+TEXTO:
+{text}"""
+
+# =============================================================================
 # DICCIONARIO PRINCIPAL DE PROMPTS
 # =============================================================================
 
@@ -226,6 +292,22 @@ PROMPTS = {
         "template": PROMPT_MEDICO,
         "esperado": "Mejor distinción entre PHI y datos clínicos",
         "tokens_estimados": 280
+    },
+    "structured_output": {
+        "id": "structured_output",
+        "nombre": "Structured Output",
+        "descripcion": "Categorías PHI explícitas con formato estructurado",
+        "template": PROMPT_STRUCTURED_OUTPUT,
+        "esperado": "Consistencia en placeholders, menos variabilidad",
+        "tokens_estimados": 200
+    },
+    "hybrid": {
+        "id": "hybrid",
+        "nombre": "Hybrid (Few-Shot + CoT)",
+        "descripcion": "Combina ejemplos con razonamiento paso a paso",
+        "template": PROMPT_HYBRID,
+        "esperado": "Mejor precisión combinando técnicas (mayor latencia)",
+        "tokens_estimados": 450
     }
 }
 
