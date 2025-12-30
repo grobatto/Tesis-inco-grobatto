@@ -1,0 +1,1713 @@
+{
+  "metadata": {
+    "timestamp": "2025-12-30T22:14:57.803217",
+    "host": "localhost",
+    "port": 8080,
+    "iterations": 1
+  },
+  "experiments": {
+    "performance": {
+      "experiment": "performance_benchmark",
+      "results": [
+        {
+          "iteration": 1,
+          "case_id": "A1",
+          "case_name": "Emergencia Cardiología",
+          "tps_generation": 14.89,
+          "tps_prompt": 34.51,
+          "tokens_generated": 500,
+          "total_time_s": 42.33
+        },
+        {
+          "iteration": 1,
+          "case_id": "A2",
+          "case_name": "Consulta Oncología",
+          "tps_generation": 15.02,
+          "tps_prompt": 47.77,
+          "tokens_generated": 500,
+          "total_time_s": 38.32
+        },
+        {
+          "iteration": 1,
+          "case_id": "A3",
+          "case_name": "Evolución CTI",
+          "tps_generation": 15.04,
+          "tps_prompt": 47.95,
+          "tokens_generated": 500,
+          "total_time_s": 38.29
+        },
+        {
+          "iteration": 1,
+          "case_id": "A4",
+          "case_name": "Alta Cirugía",
+          "tps_generation": 15.01,
+          "tps_prompt": 44.89,
+          "tokens_generated": 500,
+          "total_time_s": 39.75
+        },
+        {
+          "iteration": 1,
+          "case_id": "A5",
+          "case_name": "Interconsulta Neurología",
+          "tps_generation": 15.18,
+          "tps_prompt": 49.74,
+          "tokens_generated": 500,
+          "total_time_s": 37.38
+        },
+        {
+          "iteration": 1,
+          "case_id": "B1",
+          "case_name": "Epicrisis Medicina Interna",
+          "tps_generation": 14.91,
+          "tps_prompt": 43.46,
+          "tokens_generated": 500,
+          "total_time_s": 40.89
+        },
+        {
+          "iteration": 1,
+          "case_id": "B2",
+          "case_name": "Resumen Pediatría",
+          "tps_generation": 15.03,
+          "tps_prompt": 46.84,
+          "tokens_generated": 500,
+          "total_time_s": 38.93
+        },
+        {
+          "iteration": 1,
+          "case_id": "B3",
+          "case_name": "Nota Operatoria Traumatología",
+          "tps_generation": 14.99,
+          "tps_prompt": 44.82,
+          "tokens_generated": 500,
+          "total_time_s": 40.1
+        },
+        {
+          "iteration": 1,
+          "case_id": "C1",
+          "case_name": "Historia Psiquiatría",
+          "tps_generation": 14.9,
+          "tps_prompt": 43.75,
+          "tokens_generated": 500,
+          "total_time_s": 40.98
+        },
+        {
+          "iteration": 1,
+          "case_id": "C2",
+          "case_name": "Multi-Evolución CTI",
+          "tps_generation": 14.84,
+          "tps_prompt": 42.65,
+          "tokens_generated": 500,
+          "total_time_s": 42.05
+        }
+      ],
+      "summary": {
+        "tps_mean": 14.98,
+        "tps_std": 0.1,
+        "tps_min": 14.84,
+        "tps_max": 15.18,
+        "total_tests": 10
+      }
+    },
+    "prompts": {
+      "experiment": "prompt_comparison",
+      "results": [
+        {
+          "prompt_id": "baseline",
+          "prompt_name": "Zero-Shot Simple",
+          "avg_tps": 15.04,
+          "avg_recall": 0.6793,
+          "avg_lrdi": 0.0,
+          "details": [
+            {
+              "case_id": "A1",
+              "tps": 14.95,
+              "quality": {
+                "true_positives": 9,
+                "false_negatives": 2,
+                "total_entities": 11,
+                "placeholders_found": 59,
+                "precision": 0.1525,
+                "recall": 0.8182,
+                "f1_micro": 0.2571,
+                "lrdi": 0.0,
+                "lrqi": 75.0,
+                "direct_escaped": [
+                  {
+                    "category": "CONTACT_PHONE",
+                    "value": "099 847 231"
+                  }
+                ],
+                "quasi_escaped": [
+                  {
+                    "category": "DATE_ADMISSION",
+                    "value": "15/11/2024"
+                  }
+                ]
+              },
+              "anonymized_text": "\nDomicilio: Av. 12 de Octubre 1234, apto 401\nCiudad: San José\nTeléfono: 099 847 231\nEmail: alejandro.martinez@hospital.com\nFecha: 15/11/2024\nHora: 03:47\n\n[ANONIMIZADO]\n[ANONIMIZADO]\n[ANONIMIZADO]\n[ANO..."
+            },
+            {
+              "case_id": "A2",
+              "tps": 15.15,
+              "quality": {
+                "true_positives": 7,
+                "false_negatives": 4,
+                "total_entities": 11,
+                "placeholders_found": 20,
+                "precision": 0.35,
+                "recall": 0.6364,
+                "f1_micro": 0.4516,
+                "lrdi": 0.0,
+                "lrqi": 100.0,
+                "direct_escaped": [
+                  {
+                    "category": "CONTACT_PHONE",
+                    "value": "473-25890"
+                  },
+                  {
+                    "category": "ID_MEDICAL_RECORD",
+                    "value": "ON-2024-1234"
+                  },
+                  {
+                    "category": "NAME_FAMILY",
+                    "value": "Juan Carlos Rodríguez"
+                  },
+                  {
+                    "category": "NAME_DOCTOR",
+                    "value": "Valentina Gutiérrez Oreggioni"
+                  }
+                ],
+                "quasi_escaped": []
+              },
+              "anonymized_text": "\nTel: 473-25890\nEmail: valentina.gutierrez@oncologia.es\n\n[REGISTRO] [NOMBRE] ha sido diagnosticado con cáncer ductal infiltrante mamario izquierda. Su familia familiar es Juan Carlos Rodríguez, quien ..."
+            },
+            {
+              "case_id": "A3",
+              "tps": 15.03,
+              "quality": {
+                "true_positives": 7,
+                "false_negatives": 5,
+                "total_entities": 12,
+                "placeholders_found": 27,
+                "precision": 0.2593,
+                "recall": 0.5833,
+                "f1_micro": 0.359,
+                "lrdi": 0.0,
+                "lrqi": 25.0,
+                "direct_escaped": [
+                  {
+                    "category": "NAME_PATIENT",
+                    "value": "Fernando José Acosta Píriz"
+                  },
+                  {
+                    "category": "ID_CI",
+                    "value": "1.987.654-2"
+                  }
+                ],
+                "quasi_escaped": [
+                  {
+                    "category": "DATE_PROCEDURE",
+                    "value": "22/11/2024"
+                  },
+                  {
+                    "category": "LOCATION_STREET",
+                    "value": "Av. 8 de Octubre 3456"
+                  },
+                  {
+                    "category": "LOCATION_CITY",
+                    "value": "Montevideo"
+                  }
+                ]
+              },
+              "anonymized_text": "\nTeléfono: 038-234-5678\nEmail: lucia.gomez@hospitalmaciel.com\nRegistro: 2024-CTI-123\n\n[Nombre]: Fernando José Acosta Píriz\n[CI]: 1.987.654-2\n[DIRECCION]: Av. 8 de Octubre 3456, Montevideo\n[UBICACION]:..."
+            }
+          ]
+        },
+        {
+          "prompt_id": "detailed",
+          "prompt_name": "Zero-Shot Detallado",
+          "avg_tps": 14.65,
+          "avg_recall": 0.5758,
+          "avg_lrdi": 33.33,
+          "details": [
+            {
+              "case_id": "A1",
+              "tps": 14.53,
+              "quality": {
+                "true_positives": 1,
+                "false_negatives": 10,
+                "total_entities": 11,
+                "placeholders_found": 0,
+                "precision": 0,
+                "recall": 0.0909,
+                "f1_micro": 0.0,
+                "lrdi": 0.0,
+                "lrqi": 25.0,
+                "direct_escaped": [
+                  {
+                    "category": "NAME_PATIENT",
+                    "value": "Roberto Carlos Méndez Aguilar"
+                  },
+                  {
+                    "category": "ID_CI",
+                    "value": "3.847.291-6"
+                  },
+                  {
+                    "category": "CONTACT_PHONE",
+                    "value": "099 847 231"
+                  },
+                  {
+                    "category": "ID_MEDICAL_RECORD",
+                    "value": "HC-2024-48721"
+                  },
+                  {
+                    "category": "NAME_DOCTOR",
+                    "value": "María Fernanda Sosa"
+                  },
+                  {
+                    "category": "NAME_DOCTOR",
+                    "value": "Alejandro Martínez Vidal"
+                  },
+                  {
+                    "category": "ID_CI",
+                    "value": "1.892.445-3"
+                  }
+                ],
+                "quasi_escaped": [
+                  {
+                    "category": "LOCATION_STREET",
+                    "value": "Bulevar Artigas 2847, apto 302"
+                  },
+                  {
+                    "category": "LOCATION_CITY",
+                    "value": "Montevideo"
+                  },
+                  {
+                    "category": "LOCATION_HOSPITAL",
+                    "value": "HOSPITAL DE CLÍNICAS"
+                  }
+                ]
+              },
+              "anonymized_text": "\nDomicilio: Calle 123, 456, apto 789\nCiudad: Buenos Aires\nTeléfono: 011 567 890\nEmail: alejandromartinez@medicos.com\n\nHOSPITAL DE CLÍNICAS - SERVICIO DE EMERGENCIA\nFecha de alta: 16/11/2024 - Hora: 04..."
+            },
+            {
+              "case_id": "A2",
+              "tps": 14.71,
+              "quality": {
+                "true_positives": 7,
+                "false_negatives": 4,
+                "total_entities": 11,
+                "placeholders_found": 0,
+                "precision": 0,
+                "recall": 0.6364,
+                "f1_micro": 0.0,
+                "lrdi": 0.0,
+                "lrqi": 75.0,
+                "direct_escaped": [
+                  {
+                    "category": "CONTACT_PHONE",
+                    "value": "473-25890"
+                  },
+                  {
+                    "category": "NAME_FAMILY",
+                    "value": "Juan Carlos Rodríguez"
+                  },
+                  {
+                    "category": "NAME_DOCTOR",
+                    "value": "Valentina Gutiérrez Oreggioni"
+                  }
+                ],
+                "quasi_escaped": [
+                  {
+                    "category": "LOCATION_CITY",
+                    "value": "Salto"
+                  }
+                ]
+              },
+              "anonymized_text": "\nTeléfono: 473-25890\n\nEnfermera: Dra. María del Carmen Fernández\nTeléfono: 473-25890\n\nNecesitamos informar que el paciente ha ingresado a la Unidad de Oncología del Hospital General de Salto, con un d..."
+            },
+            {
+              "case_id": "A3",
+              "tps": 14.7,
+              "quality": {
+                "true_positives": 12,
+                "false_negatives": 0,
+                "total_entities": 12,
+                "placeholders_found": 0,
+                "precision": 0,
+                "recall": 1.0,
+                "f1_micro": 0.0,
+                "lrdi": 100.0,
+                "lrqi": 100.0,
+                "direct_escaped": [],
+                "quasi_escaped": []
+              },
+              "anonymized_text": ", Uruguay\n\nFecha de alta: 26/11/2024\n\nPaciente ingresó con síntomas de fiebre, dolor de pecho y dificultad respiratoria. Se realizó un examen físico y un análisis de sangre. El resultado fue de neumon..."
+            }
+          ]
+        },
+        {
+          "prompt_id": "few_shot",
+          "prompt_name": "Few-Shot (3 ejemplos)",
+          "avg_tps": 14.64,
+          "avg_recall": 0.4495,
+          "avg_lrdi": 33.33,
+          "details": [
+            {
+              "case_id": "A1",
+              "tps": 14.5,
+              "quality": {
+                "true_positives": 11,
+                "false_negatives": 0,
+                "total_entities": 11,
+                "placeholders_found": 52,
+                "precision": 0.2115,
+                "recall": 1.0,
+                "f1_micro": 0.3492,
+                "lrdi": 100.0,
+                "lrqi": 100.0,
+                "direct_escaped": [],
+                "quasi_escaped": []
+              },
+              "anonymized_text": "\n\nEjemplo de cómo se anónima el texto:\n\nDATOS DEL PACIENTE:\nNombre: [NOMBRE], CI [CI], Edad [EDAD], Domicilio [DIRECCION], Ciudad [UBICACION], Teléfono [TELEFONO], Historia Clínica N° [NOMBRE]\n\nMOTIVO..."
+            },
+            {
+              "case_id": "A2",
+              "tps": 14.76,
+              "quality": {
+                "true_positives": 2,
+                "false_negatives": 9,
+                "total_entities": 11,
+                "placeholders_found": 0,
+                "precision": 0,
+                "recall": 0.1818,
+                "f1_micro": 0.0,
+                "lrdi": 0.0,
+                "lrqi": 50.0,
+                "direct_escaped": [
+                  {
+                    "category": "NAME_PATIENT",
+                    "value": "Ana María Rodríguez Ferreira"
+                  },
+                  {
+                    "category": "ID_CI",
+                    "value": "2.156.873-4"
+                  },
+                  {
+                    "category": "CONTACT_PHONE",
+                    "value": "473-25890"
+                  },
+                  {
+                    "category": "ID_MEDICAL_RECORD",
+                    "value": "ON-2024-1234"
+                  },
+                  {
+                    "category": "NAME_FAMILY",
+                    "value": "Juan Carlos Rodríguez"
+                  },
+                  {
+                    "category": "CONTACT_PHONE",
+                    "value": "099-888-777"
+                  },
+                  {
+                    "category": "NAME_DOCTOR",
+                    "value": "Valentina Gutiérrez Oreggioni"
+                  }
+                ],
+                "quasi_escaped": [
+                  {
+                    "category": "LOCATION_CITY",
+                    "value": "Salto"
+                  },
+                  {
+                    "category": "LOCATION_STREET",
+                    "value": "Calle Uruguay 456"
+                  }
+                ]
+              },
+              "anonymized_text": "\nTeléfono: 099-123-4567\n\nEjemplo de cómo se podría anónimizar este texto:\n\nOutput: \"Paciente: Ana María Rodríguez Ferreira\nCI: 2.156.873-4\nProcedencia: Salto\nDomicilio: Calle Uruguay 456\nTeléfono: 473..."
+            },
+            {
+              "case_id": "A3",
+              "tps": 14.67,
+              "quality": {
+                "true_positives": 2,
+                "false_negatives": 10,
+                "total_entities": 12,
+                "placeholders_found": 0,
+                "precision": 0,
+                "recall": 0.1667,
+                "f1_micro": 0.0,
+                "lrdi": 0.0,
+                "lrqi": 50.0,
+                "direct_escaped": [
+                  {
+                    "category": "NAME_PATIENT",
+                    "value": "Fernando José Acosta Píriz"
+                  },
+                  {
+                    "category": "ID_CI",
+                    "value": "1.987.654-2"
+                  },
+                  {
+                    "category": "ID_MEDICAL_RECORD",
+                    "value": "2024-CTI-789"
+                  },
+                  {
+                    "category": "NAME_DOCTOR",
+                    "value": "Martín Fernández"
+                  },
+                  {
+                    "category": "NAME_FAMILY",
+                    "value": "Carmen Díaz"
+                  },
+                  {
+                    "category": "CONTACT_PHONE",
+                    "value": "094-567-890"
+                  },
+                  {
+                    "category": "NAME_DOCTOR",
+                    "value": "Lucía Gómez Pereira"
+                  },
+                  {
+                    "category": "NAME_NURSE",
+                    "value": "Patricia Núñez"
+                  }
+                ],
+                "quasi_escaped": [
+                  {
+                    "category": "LOCATION_STREET",
+                    "value": "Av. 8 de Octubre 3456"
+                  },
+                  {
+                    "category": "LOCATION_CITY",
+                    "value": "Montevideo"
+                  }
+                ]
+              },
+              "anonymized_text": "\nEmail: lgp@hospital.com\n\nMedicamentos:\n1. Amoxicilina 500 mg, 2x diario\n2. Azitromicina 1000 mg, 3x diario\n3. Cefalosporina 300 mg, 2x diario\n\nDiagnóstico: Neumonía grave, SDRA moderado. Se requiere ..."
+            }
+          ]
+        },
+        {
+          "prompt_id": "chain_of_thought",
+          "prompt_name": "Chain of Thought",
+          "avg_tps": 14.8,
+          "avg_recall": 0.0606,
+          "avg_lrdi": 0.0,
+          "details": [
+            {
+              "case_id": "A1",
+              "tps": 14.76,
+              "quality": {
+                "true_positives": 0,
+                "false_negatives": 11,
+                "total_entities": 11,
+                "placeholders_found": 0,
+                "precision": 0,
+                "recall": 0.0,
+                "f1_micro": 0,
+                "lrdi": 0.0,
+                "lrqi": 0.0,
+                "direct_escaped": [
+                  {
+                    "category": "NAME_PATIENT",
+                    "value": "Roberto Carlos Méndez Aguilar"
+                  },
+                  {
+                    "category": "ID_CI",
+                    "value": "3.847.291-6"
+                  },
+                  {
+                    "category": "CONTACT_PHONE",
+                    "value": "099 847 231"
+                  },
+                  {
+                    "category": "ID_MEDICAL_RECORD",
+                    "value": "HC-2024-48721"
+                  },
+                  {
+                    "category": "NAME_DOCTOR",
+                    "value": "María Fernanda Sosa"
+                  },
+                  {
+                    "category": "NAME_DOCTOR",
+                    "value": "Alejandro Martínez Vidal"
+                  },
+                  {
+                    "category": "ID_CI",
+                    "value": "1.892.445-3"
+                  }
+                ],
+                "quasi_escaped": [
+                  {
+                    "category": "LOCATION_STREET",
+                    "value": "Bulevar Artigas 2847, apto 302"
+                  },
+                  {
+                    "category": "LOCATION_CITY",
+                    "value": "Montevideo"
+                  },
+                  {
+                    "category": "DATE_ADMISSION",
+                    "value": "15/11/2024"
+                  },
+                  {
+                    "category": "LOCATION_HOSPITAL",
+                    "value": "HOSPITAL DE CLÍNICAS"
+                  }
+                ]
+              },
+              "anonymized_text": " \n\nPASOS:\n1. Identificar todos los nombres de personas\n2. Identificar números de documento (CI)\n3. Identificar direcciones y ubicaciones\n4. Identificar teléfonos y emails\n5. Identificar fechas\n6. Reem..."
+            },
+            {
+              "case_id": "A2",
+              "tps": 14.8,
+              "quality": {
+                "true_positives": 2,
+                "false_negatives": 9,
+                "total_entities": 11,
+                "placeholders_found": 39,
+                "precision": 0.0513,
+                "recall": 0.1818,
+                "f1_micro": 0.08,
+                "lrdi": 0.0,
+                "lrqi": 25.0,
+                "direct_escaped": [
+                  {
+                    "category": "NAME_PATIENT",
+                    "value": "Ana María Rodríguez Ferreira"
+                  },
+                  {
+                    "category": "ID_CI",
+                    "value": "2.156.873-4"
+                  },
+                  {
+                    "category": "CONTACT_PHONE",
+                    "value": "473-25890"
+                  },
+                  {
+                    "category": "ID_MEDICAL_RECORD",
+                    "value": "ON-2024-1234"
+                  },
+                  {
+                    "category": "NAME_FAMILY",
+                    "value": "Juan Carlos Rodríguez"
+                  },
+                  {
+                    "category": "CONTACT_PHONE",
+                    "value": "099-888-777"
+                  }
+                ],
+                "quasi_escaped": [
+                  {
+                    "category": "LOCATION_STREET",
+                    "value": "Calle Uruguay 456"
+                  },
+                  {
+                    "category": "DATE_PROCEDURE",
+                    "value": "20/10/2024"
+                  },
+                  {
+                    "category": "LOCATION_HOSPITAL",
+                    "value": "ASOCIACIÓN ESPAÑOLA"
+                  }
+                ]
+              },
+              "anonymized_text": " \n\nPASOS:\n1. Identificar todos los nombres de personas: Ana María Rodríguez Ferreira, Juan Carlos Rodríguez\n2. Identificar números de documento (CI): 2.156.873-4\n3. Identificar direcciones y ubicacion..."
+            },
+            {
+              "case_id": "A3",
+              "tps": 14.84,
+              "quality": {
+                "true_positives": 0,
+                "false_negatives": 12,
+                "total_entities": 12,
+                "placeholders_found": 14,
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1_micro": 0,
+                "lrdi": 0.0,
+                "lrqi": 0.0,
+                "direct_escaped": [
+                  {
+                    "category": "NAME_PATIENT",
+                    "value": "Fernando José Acosta Píriz"
+                  },
+                  {
+                    "category": "ID_CI",
+                    "value": "1.987.654-2"
+                  },
+                  {
+                    "category": "ID_MEDICAL_RECORD",
+                    "value": "2024-CTI-789"
+                  },
+                  {
+                    "category": "NAME_DOCTOR",
+                    "value": "Martín Fernández"
+                  },
+                  {
+                    "category": "NAME_FAMILY",
+                    "value": "Carmen Díaz"
+                  },
+                  {
+                    "category": "CONTACT_PHONE",
+                    "value": "094-567-890"
+                  },
+                  {
+                    "category": "NAME_DOCTOR",
+                    "value": "Lucía Gómez Pereira"
+                  },
+                  {
+                    "category": "NAME_NURSE",
+                    "value": "Patricia Núñez"
+                  }
+                ],
+                "quasi_escaped": [
+                  {
+                    "category": "DATE_PROCEDURE",
+                    "value": "22/11/2024"
+                  },
+                  {
+                    "category": "LOCATION_HOSPITAL",
+                    "value": "HOSPITAL MACIEL"
+                  },
+                  {
+                    "category": "LOCATION_STREET",
+                    "value": "Av. 8 de Octubre 3456"
+                  },
+                  {
+                    "category": "LOCATION_CITY",
+                    "value": "Montevideo"
+                  }
+                ]
+              },
+              "anonymized_text": " \n\nTexto a anonimizar: CTI - HOSPITAL MACIEL\nFecha: 22/11/2024\n\nPACIENTE: Fernando José Acosta Píriz\nCI: 1.987.654-2\nHC: 2024-CTI-789\n\nDIAGNÓSTICOS:\n1. Neumonía grave\n2. SDRA moderado\n\nInterconsulta c..."
+            }
+          ]
+        },
+        {
+          "prompt_id": "master_tutor",
+          "prompt_name": "Master Tutor",
+          "avg_tps": 14.86,
+          "avg_recall": 0.5328,
+          "avg_lrdi": 33.33,
+          "details": [
+            {
+              "case_id": "A1",
+              "tps": 14.76,
+              "quality": {
+                "true_positives": 11,
+                "false_negatives": 0,
+                "total_entities": 11,
+                "placeholders_found": 0,
+                "precision": 0,
+                "recall": 1.0,
+                "f1_micro": 0.0,
+                "lrdi": 100.0,
+                "lrqi": 100.0,
+                "direct_escaped": [],
+                "quasi_escaped": []
+              },
+              "anonymized_text": "\n\nRECOMENDACIONES:\n1. Consulta Urgente\n2. Prueba de laboratorio: CRP, ESR, TSH, TPO, TGA, TSH, TPO, TGA, TSH, TPO, TGA, TSH, TPO, TGA, TSH, TPO, TGA, TSH, TPO, TGA, TSH, TPO, TGA, TSH, TPO, TGA, TSH, ..."
+            },
+            {
+              "case_id": "A2",
+              "tps": 14.87,
+              "quality": {
+                "true_positives": 2,
+                "false_negatives": 9,
+                "total_entities": 11,
+                "placeholders_found": 0,
+                "precision": 0,
+                "recall": 0.1818,
+                "f1_micro": 0.0,
+                "lrdi": 0.0,
+                "lrqi": 50.0,
+                "direct_escaped": [
+                  {
+                    "category": "NAME_PATIENT",
+                    "value": "Ana María Rodríguez Ferreira"
+                  },
+                  {
+                    "category": "ID_CI",
+                    "value": "2.156.873-4"
+                  },
+                  {
+                    "category": "CONTACT_PHONE",
+                    "value": "473-25890"
+                  },
+                  {
+                    "category": "ID_MEDICAL_RECORD",
+                    "value": "ON-2024-1234"
+                  },
+                  {
+                    "category": "NAME_FAMILY",
+                    "value": "Juan Carlos Rodríguez"
+                  },
+                  {
+                    "category": "CONTACT_PHONE",
+                    "value": "099-888-777"
+                  },
+                  {
+                    "category": "NAME_DOCTOR",
+                    "value": "Valentina Gutiérrez Oreggioni"
+                  }
+                ],
+                "quasi_escaped": [
+                  {
+                    "category": "LOCATION_CITY",
+                    "value": "Salto"
+                  },
+                  {
+                    "category": "LOCATION_STREET",
+                    "value": "Calle Uruguay 456"
+                  }
+                ]
+              },
+              "anonymized_text": "\nTeléfono: 473-25890\n\nPaciente: Ana María Rodríguez Ferreira\nCI: 2.156.873-4\nProcedencia: Salto\nDomicilio: Calle Uruguay 456\nTeléfono: 473-25890\nHC: ON-2024-1234\n\nDiagnóstico: Carcinoma Ductal Infiltr..."
+            },
+            {
+              "case_id": "A3",
+              "tps": 14.94,
+              "quality": {
+                "true_positives": 5,
+                "false_negatives": 7,
+                "total_entities": 12,
+                "placeholders_found": 0,
+                "precision": 0,
+                "recall": 0.4167,
+                "f1_micro": 0.0,
+                "lrdi": 0.0,
+                "lrqi": 50.0,
+                "direct_escaped": [
+                  {
+                    "category": "NAME_DOCTOR",
+                    "value": "Martín Fernández"
+                  },
+                  {
+                    "category": "NAME_FAMILY",
+                    "value": "Carmen Díaz"
+                  },
+                  {
+                    "category": "CONTACT_PHONE",
+                    "value": "094-567-890"
+                  },
+                  {
+                    "category": "NAME_DOCTOR",
+                    "value": "Lucía Gómez Pereira"
+                  },
+                  {
+                    "category": "NAME_NURSE",
+                    "value": "Patricia Núñez"
+                  }
+                ],
+                "quasi_escaped": [
+                  {
+                    "category": "LOCATION_STREET",
+                    "value": "Av. 8 de Octubre 3456"
+                  },
+                  {
+                    "category": "LOCATION_CITY",
+                    "value": "Montevideo"
+                  }
+                ]
+              },
+              "anonymized_text": ", Uruguay\n\nObservaciones: Paciente está en estado grave, necesitando ventilación mecánica. Se requiere urgente ingreso en la Unidad de Cuidados Intensivos (UCI).\n\nDiagnósticos: Neumonía grave, SDRA mo..."
+            }
+          ]
+        },
+        {
+          "prompt_id": "medico",
+          "prompt_name": "Médico Especializado",
+          "avg_tps": 14.44,
+          "avg_recall": 0.5354,
+          "avg_lrdi": 0.0,
+          "details": [
+            {
+              "case_id": "A1",
+              "tps": 14.4,
+              "quality": {
+                "true_positives": 6,
+                "false_negatives": 5,
+                "total_entities": 11,
+                "placeholders_found": 13,
+                "precision": 0.4615,
+                "recall": 0.5455,
+                "f1_micro": 0.5,
+                "lrdi": 0.0,
+                "lrqi": 50.0,
+                "direct_escaped": [
+                  {
+                    "category": "NAME_DOCTOR",
+                    "value": "María Fernanda Sosa"
+                  },
+                  {
+                    "category": "NAME_DOCTOR",
+                    "value": "Alejandro Martínez Vidal"
+                  },
+                  {
+                    "category": "ID_CI",
+                    "value": "1.892.445-3"
+                  }
+                ],
+                "quasi_escaped": [
+                  {
+                    "category": "DATE_ADMISSION",
+                    "value": "15/11/2024"
+                  },
+                  {
+                    "category": "LOCATION_HOSPITAL",
+                    "value": "HOSPITAL DE CLÍNICAS"
+                  }
+                ]
+              },
+              "anonymized_text": " \n\nHOSPITAL DE CLÍNICAS - SERVICIO DE EMERGENCIA\nFecha de ingreso: 15/11/2024 - Hora: 03:47\n\nDATOS DEL PACIENTE:\nNombre: [NOMBRE]\nDocumento: [CI]\nEdad: [EDAD] años\nDomicilio: [DIRECCION]\nTeléfono: [TE..."
+            },
+            {
+              "case_id": "A2",
+              "tps": 14.46,
+              "quality": {
+                "true_positives": 8,
+                "false_negatives": 3,
+                "total_entities": 11,
+                "placeholders_found": 20,
+                "precision": 0.4,
+                "recall": 0.7273,
+                "f1_micro": 0.5161,
+                "lrdi": 0.0,
+                "lrqi": 100.0,
+                "direct_escaped": [
+                  {
+                    "category": "ID_MEDICAL_RECORD",
+                    "value": "ON-2024-1234"
+                  },
+                  {
+                    "category": "NAME_FAMILY",
+                    "value": "Juan Carlos Rodríguez"
+                  },
+                  {
+                    "category": "NAME_DOCTOR",
+                    "value": "Valentina Gutiérrez Oreggioni"
+                  }
+                ],
+                "quasi_escaped": []
+              },
+              "anonymized_text": " \n\nPACIENTE: [NOMBRE]\nCI: [CI]\nProcedencia: [PROCEDENCIA]\nDomicilio: [DIRECCION]\nTeléfono: [TELEFONO]\nHC: ON-2024-1234\n\nDIAGNÓSTICO: Carcinoma Ductal Infiltrante mama izquierda.\n\nFAMILIAR: Juan Carlos..."
+            },
+            {
+              "case_id": "A3",
+              "tps": 14.45,
+              "quality": {
+                "true_positives": 4,
+                "false_negatives": 8,
+                "total_entities": 12,
+                "placeholders_found": 7,
+                "precision": 0.5714,
+                "recall": 0.3333,
+                "f1_micro": 0.4211,
+                "lrdi": 0.0,
+                "lrqi": 50.0,
+                "direct_escaped": [
+                  {
+                    "category": "ID_MEDICAL_RECORD",
+                    "value": "2024-CTI-789"
+                  },
+                  {
+                    "category": "NAME_DOCTOR",
+                    "value": "Martín Fernández"
+                  },
+                  {
+                    "category": "NAME_FAMILY",
+                    "value": "Carmen Díaz"
+                  },
+                  {
+                    "category": "CONTACT_PHONE",
+                    "value": "094-567-890"
+                  },
+                  {
+                    "category": "NAME_DOCTOR",
+                    "value": "Lucía Gómez Pereira"
+                  },
+                  {
+                    "category": "NAME_NURSE",
+                    "value": "Patricia Núñez"
+                  }
+                ],
+                "quasi_escaped": [
+                  {
+                    "category": "DATE_PROCEDURE",
+                    "value": "22/11/2024"
+                  },
+                  {
+                    "category": "LOCATION_HOSPITAL",
+                    "value": "HOSPITAL MACIEL"
+                  }
+                ]
+              },
+              "anonymized_text": " \n\nCTI - HOSPITAL MACIEL\nFecha: 22/11/2024\n\nPACIENTE: [NOMBRE]\nCI: [CI]\nHC: 2024-CTI-789\n\nDIAGNÓSTICOS:\n1. Neumonía grave\n2. SDRA moderado\n\nInterconsulta con Dr. Martín Fernández (Neumología).\nFamilia..."
+            }
+          ]
+        },
+        {
+          "prompt_id": "structured_output",
+          "prompt_name": "Structured Output",
+          "avg_tps": 14.51,
+          "avg_recall": 0.9722,
+          "avg_lrdi": 100.0,
+          "details": [
+            {
+              "case_id": "A1",
+              "tps": 14.51,
+              "quality": {
+                "true_positives": 11,
+                "false_negatives": 0,
+                "total_entities": 11,
+                "placeholders_found": 41,
+                "precision": 0.2683,
+                "recall": 1.0,
+                "f1_micro": 0.4231,
+                "lrdi": 100.0,
+                "lrqi": 100.0,
+                "direct_escaped": [],
+                "quasi_escaped": []
+              },
+              "anonymized_text": " \n\n| Categoría | Placeholder |\n|-----------|-------------|\n| Nombre paciente | [NOMBRE] |\n| Nombre médico | [NOMBRE] |\n| Nombre enfermero | [NOMBRE] |\n| Nombre familiar | [NOMBRE] |\n| Cédula identidad..."
+            },
+            {
+              "case_id": "A2",
+              "tps": 14.52,
+              "quality": {
+                "true_positives": 11,
+                "false_negatives": 0,
+                "total_entities": 11,
+                "placeholders_found": 44,
+                "precision": 0.25,
+                "recall": 1.0,
+                "f1_micro": 0.4,
+                "lrdi": 100.0,
+                "lrqi": 100.0,
+                "direct_escaped": [],
+                "quasi_escaped": []
+              },
+              "anonymized_text": " \n\n| Categoría | Placeholder |\n|-----------|-------------|\n| Nombre paciente | [NOMBRE] |\n| Nombre médico | [NOMBRE] |\n| Nombre enfermero | [NOMBRE] |\n| Nombre familiar | [NOMBRE] |\n| Cédula identidad..."
+            },
+            {
+              "case_id": "A3",
+              "tps": 14.5,
+              "quality": {
+                "true_positives": 11,
+                "false_negatives": 1,
+                "total_entities": 12,
+                "placeholders_found": 13,
+                "precision": 0.8462,
+                "recall": 0.9167,
+                "f1_micro": 0.88,
+                "lrdi": 100.0,
+                "lrqi": 75.0,
+                "direct_escaped": [],
+                "quasi_escaped": [
+                  {
+                    "category": "LOCATION_HOSPITAL",
+                    "value": "HOSPITAL MACIEL"
+                  }
+                ]
+              },
+              "anonymized_text": " CTI - HOSPITAL MACIEL\nFecha: [FECHA] \n\nPACIENTE: [NOMBRE] \nCI: [CI]\nHC: [REGISTRO]\n\nDIAGNÓSTICOS:\n1. [DIAGNÓSTICO]\n2. [DIAGNÓSTICO]\n\nInterconsulta con Dr. [NOMBRE] (Neumología).\nFamiliar: [NOMBRE] (e..."
+            }
+          ]
+        },
+        {
+          "prompt_id": "hybrid",
+          "prompt_name": "Hybrid (Few-Shot + CoT)",
+          "avg_tps": 14.15,
+          "avg_recall": 0.5025,
+          "avg_lrdi": 33.33,
+          "details": [
+            {
+              "case_id": "A1",
+              "tps": 14.03,
+              "quality": {
+                "true_positives": 1,
+                "false_negatives": 10,
+                "total_entities": 11,
+                "placeholders_found": 29,
+                "precision": 0.0345,
+                "recall": 0.0909,
+                "f1_micro": 0.05,
+                "lrdi": 0.0,
+                "lrqi": 25.0,
+                "direct_escaped": [
+                  {
+                    "category": "NAME_PATIENT",
+                    "value": "Roberto Carlos Méndez Aguilar"
+                  },
+                  {
+                    "category": "ID_CI",
+                    "value": "3.847.291-6"
+                  },
+                  {
+                    "category": "CONTACT_PHONE",
+                    "value": "099 847 231"
+                  },
+                  {
+                    "category": "ID_MEDICAL_RECORD",
+                    "value": "HC-2024-48721"
+                  },
+                  {
+                    "category": "NAME_DOCTOR",
+                    "value": "María Fernanda Sosa"
+                  },
+                  {
+                    "category": "NAME_DOCTOR",
+                    "value": "Alejandro Martínez Vidal"
+                  },
+                  {
+                    "category": "ID_CI",
+                    "value": "1.892.445-3"
+                  }
+                ],
+                "quasi_escaped": [
+                  {
+                    "category": "LOCATION_STREET",
+                    "value": "Bulevar Artigas 2847, apto 302"
+                  },
+                  {
+                    "category": "LOCATION_CITY",
+                    "value": "Montevideo"
+                  },
+                  {
+                    "category": "DATE_ADMISSION",
+                    "value": "15/11/2024"
+                  }
+                ]
+              },
+              "anonymized_text": " \n\nDATOS DEL PACIENTE:\nNombre: [NOMBRE]\nDocumento: [CI]\nEdad: [EDAD] años\nDomicilio: [DIRECCION]\nCiudad: [UBICACION]\nTeléfono: [TELEFONO]\nHistoria Clínica N°: [HC-2024-48721]\n\nMOTIVO DE CONSULTA:\nDolo..."
+            },
+            {
+              "case_id": "A2",
+              "tps": 14.2,
+              "quality": {
+                "true_positives": 11,
+                "false_negatives": 0,
+                "total_entities": 11,
+                "placeholders_found": 54,
+                "precision": 0.2037,
+                "recall": 1.0,
+                "f1_micro": 0.3385,
+                "lrdi": 100.0,
+                "lrqi": 100.0,
+                "direct_escaped": [],
+                "quasi_escaped": []
+              },
+              "anonymized_text": " \n\nPaciente: [NOMBRE] (CI [CI]), Procedencia: [UBICACION], Domicilio: [DIRECCION], Teléfono: [TELEFONO], HC: [HC], Diagnóstico: [DIAGNÓSTICO], Familiar: [NOMBRE] (esposo), Cel: [CEL]\n\n**NOTA:** El tex..."
+            },
+            {
+              "case_id": "A3",
+              "tps": 14.22,
+              "quality": {
+                "true_positives": 5,
+                "false_negatives": 7,
+                "total_entities": 12,
+                "placeholders_found": 0,
+                "precision": 0,
+                "recall": 0.4167,
+                "f1_micro": 0.0,
+                "lrdi": 0.0,
+                "lrqi": 25.0,
+                "direct_escaped": [
+                  {
+                    "category": "ID_CI",
+                    "value": "1.987.654-2"
+                  },
+                  {
+                    "category": "NAME_DOCTOR",
+                    "value": "Martín Fernández"
+                  },
+                  {
+                    "category": "NAME_DOCTOR",
+                    "value": "Lucía Gómez Pereira"
+                  },
+                  {
+                    "category": "NAME_NURSE",
+                    "value": "Patricia Núñez"
+                  }
+                ],
+                "quasi_escaped": [
+                  {
+                    "category": "DATE_PROCEDURE",
+                    "value": "22/11/2024"
+                  },
+                  {
+                    "category": "LOCATION_STREET",
+                    "value": "Av. 8 de Octubre 3456"
+                  },
+                  {
+                    "category": "LOCATION_CITY",
+                    "value": "Montevideo"
+                  }
+                ]
+              },
+              "anonymized_text": " \n\nDra. Lucía Gómez Pereira (CI 1.987.654-2) atendió el 22/11/2024 en Hospital Maciel. Interconsulta con Dr. Martín Fernández (Neumología). Responsable: Dra. Lucía Gómez Pereira. Enfermería: LE. Patri..."
+            }
+          ]
+        }
+      ],
+      "ranking": [
+        "structured_output",
+        "baseline",
+        "detailed",
+        "medico",
+        "master_tutor",
+        "hybrid",
+        "few_shot",
+        "chain_of_thought"
+      ]
+    },
+    "quality": {
+      "experiment": "quality_evaluation",
+      "prompt_used": "detailed",
+      "results": [
+        {
+          "iteration": 1,
+          "case_id": "A1",
+          "performance": {
+            "tps": 14.26,
+            "time_s": 35.14
+          },
+          "quality": {
+            "true_positives": 0,
+            "false_negatives": 11,
+            "total_entities": 11,
+            "placeholders_found": 0,
+            "precision": 0,
+            "recall": 0.0,
+            "f1_micro": 0,
+            "lrdi": 0.0,
+            "lrqi": 0.0,
+            "direct_escaped": [
+              {
+                "category": "NAME_PATIENT",
+                "value": "Roberto Carlos Méndez Aguilar"
+              },
+              {
+                "category": "ID_CI",
+                "value": "3.847.291-6"
+              },
+              {
+                "category": "CONTACT_PHONE",
+                "value": "099 847 231"
+              },
+              {
+                "category": "ID_MEDICAL_RECORD",
+                "value": "HC-2024-48721"
+              },
+              {
+                "category": "NAME_DOCTOR",
+                "value": "María Fernanda Sosa"
+              },
+              {
+                "category": "NAME_DOCTOR",
+                "value": "Alejandro Martínez Vidal"
+              },
+              {
+                "category": "ID_CI",
+                "value": "1.892.445-3"
+              }
+            ],
+            "quasi_escaped": [
+              {
+                "category": "LOCATION_STREET",
+                "value": "Bulevar Artigas 2847, apto 302"
+              },
+              {
+                "category": "LOCATION_CITY",
+                "value": "Montevideo"
+              },
+              {
+                "category": "DATE_ADMISSION",
+                "value": "15/11/2024"
+              },
+              {
+                "category": "LOCATION_HOSPITAL",
+                "value": "HOSPITAL DE CLÍNICAS"
+              }
+            ]
+          }
+        },
+        {
+          "iteration": 1,
+          "case_id": "A2",
+          "performance": {
+            "tps": 14.41,
+            "time_s": 34.79
+          },
+          "quality": {
+            "true_positives": 6,
+            "false_negatives": 5,
+            "total_entities": 11,
+            "placeholders_found": 77,
+            "precision": 0.0779,
+            "recall": 0.5455,
+            "f1_micro": 0.1364,
+            "lrdi": 0.0,
+            "lrqi": 100.0,
+            "direct_escaped": [
+              {
+                "category": "NAME_PATIENT",
+                "value": "Ana María Rodríguez Ferreira"
+              },
+              {
+                "category": "CONTACT_PHONE",
+                "value": "473-25890"
+              },
+              {
+                "category": "ID_MEDICAL_RECORD",
+                "value": "ON-2024-1234"
+              },
+              {
+                "category": "NAME_FAMILY",
+                "value": "Juan Carlos Rodríguez"
+              },
+              {
+                "category": "NAME_DOCTOR",
+                "value": "Valentina Gutiérrez Oreggioni"
+              }
+            ],
+            "quasi_escaped": []
+          }
+        },
+        {
+          "iteration": 1,
+          "case_id": "A3",
+          "performance": {
+            "tps": 14.37,
+            "time_s": 34.86
+          },
+          "quality": {
+            "true_positives": 5,
+            "false_negatives": 7,
+            "total_entities": 12,
+            "placeholders_found": 0,
+            "precision": 0,
+            "recall": 0.4167,
+            "f1_micro": 0.0,
+            "lrdi": 0.0,
+            "lrqi": 50.0,
+            "direct_escaped": [
+              {
+                "category": "NAME_DOCTOR",
+                "value": "Martín Fernández"
+              },
+              {
+                "category": "NAME_FAMILY",
+                "value": "Carmen Díaz"
+              },
+              {
+                "category": "CONTACT_PHONE",
+                "value": "094-567-890"
+              },
+              {
+                "category": "NAME_DOCTOR",
+                "value": "Lucía Gómez Pereira"
+              },
+              {
+                "category": "NAME_NURSE",
+                "value": "Patricia Núñez"
+              }
+            ],
+            "quasi_escaped": [
+              {
+                "category": "LOCATION_STREET",
+                "value": "Av. 8 de Octubre 3456"
+              },
+              {
+                "category": "LOCATION_CITY",
+                "value": "Montevideo"
+              }
+            ]
+          }
+        },
+        {
+          "iteration": 1,
+          "case_id": "A4",
+          "performance": {
+            "tps": 14.24,
+            "time_s": 41.95
+          },
+          "quality": {
+            "true_positives": 5,
+            "false_negatives": 10,
+            "total_entities": 15,
+            "placeholders_found": 0,
+            "precision": 0,
+            "recall": 0.3333,
+            "f1_micro": 0.0,
+            "lrdi": 0.0,
+            "lrqi": 57.14,
+            "direct_escaped": [
+              {
+                "category": "NAME_PATIENT",
+                "value": "María Elena Suárez Bentancor"
+              },
+              {
+                "category": "ID_CI",
+                "value": "4.321.098-7"
+              },
+              {
+                "category": "CONTACT_PHONE",
+                "value": "042-445566"
+              },
+              {
+                "category": "CONTACT_EMAIL",
+                "value": "mesuarez@gmail.com"
+              },
+              {
+                "category": "ID_MEDICAL_RECORD",
+                "value": "CG-2024-5678"
+              },
+              {
+                "category": "NAME_FAMILY",
+                "value": "Laura Fernández Suárez"
+              },
+              {
+                "category": "CONTACT_PHONE",
+                "value": "099-123-456"
+              }
+            ],
+            "quasi_escaped": [
+              {
+                "category": "LOCATION_STREET",
+                "value": "Rbla. Rep. Argentina 1234"
+              },
+              {
+                "category": "LOCATION_CITY",
+                "value": "Punta del Este"
+              },
+              {
+                "category": "LOCATION_DEPARTMENT",
+                "value": "Maldonado"
+              }
+            ]
+          }
+        },
+        {
+          "iteration": 1,
+          "case_id": "A5",
+          "performance": {
+            "tps": 14.43,
+            "time_s": 39.39
+          },
+          "quality": {
+            "true_positives": 3,
+            "false_negatives": 6,
+            "total_entities": 9,
+            "placeholders_found": 9,
+            "precision": 0.3333,
+            "recall": 0.3333,
+            "f1_micro": 0.3333,
+            "lrdi": 0.0,
+            "lrqi": 0.0,
+            "direct_escaped": [
+              {
+                "category": "ID_MEDICAL_RECORD",
+                "value": "MU-2024-9876"
+              },
+              {
+                "category": "NAME_DOCTOR",
+                "value": "Carolina Méndez"
+              },
+              {
+                "category": "NAME_DOCTOR",
+                "value": "Mauricio Rodríguez Brum"
+              }
+            ],
+            "quasi_escaped": [
+              {
+                "category": "LOCATION_CITY",
+                "value": "Flores"
+              },
+              {
+                "category": "DATE_PROCEDURE",
+                "value": "25/11/2024"
+              },
+              {
+                "category": "LOCATION_HOSPITAL",
+                "value": "MÉDICA URUGUAYA"
+              }
+            ]
+          }
+        },
+        {
+          "iteration": 1,
+          "case_id": "B1",
+          "performance": {
+            "tps": 14.15,
+            "time_s": 43.16
+          },
+          "quality": {
+            "true_positives": 1,
+            "false_negatives": 15,
+            "total_entities": 16,
+            "placeholders_found": 0,
+            "precision": 0,
+            "recall": 0.0625,
+            "f1_micro": 0.0,
+            "lrdi": 0.0,
+            "lrqi": 16.67,
+            "direct_escaped": [
+              {
+                "category": "NAME_PATIENT",
+                "value": "Ricardo Daniel Olivera Techera"
+              },
+              {
+                "category": "ID_CI",
+                "value": "2.789.456-3"
+              },
+              {
+                "category": "CONTACT_PHONE",
+                "value": "2601-5678"
+              },
+              {
+                "category": "CONTACT_PHONE",
+                "value": "091-234-567"
+              },
+              {
+                "category": "ID_MEDICAL_RECORD",
+                "value": "HP-2024-12345"
+              },
+              {
+                "category": "NAME_DOCTOR",
+                "value": "Fernando González"
+              },
+              {
+                "category": "NAME_DOCTOR",
+                "value": "Mónica Pérez"
+              },
+              {
+                "category": "NAME_FAMILY",
+                "value": "Marta Lucía Rodríguez"
+              },
+              {
+                "category": "CONTACT_PHONE",
+                "value": "099-876-543"
+              },
+              {
+                "category": "NAME_DOCTOR",
+                "value": "Pablo Martín Sánchez Aguiar"
+              }
+            ],
+            "quasi_escaped": [
+              {
+                "category": "DATE_BIRTH",
+                "value": "15/03/1955"
+              },
+              {
+                "category": "LOCATION_STREET",
+                "value": "Camino Maldonado 5678"
+              },
+              {
+                "category": "LOCATION_CITY",
+                "value": "Montevideo"
+              },
+              {
+                "category": "DATE_ADMISSION",
+                "value": "10/11/2024"
+              },
+              {
+                "category": "DATE_DISCHARGE",
+                "value": "28/11/2024"
+              }
+            ]
+          }
+        },
+        {
+          "iteration": 1,
+          "case_id": "B2",
+          "performance": {
+            "tps": 14.26,
+            "time_s": 41.08
+          },
+          "quality": {
+            "true_positives": 13,
+            "false_negatives": 0,
+            "total_entities": 13,
+            "placeholders_found": 0,
+            "precision": 0,
+            "recall": 1.0,
+            "f1_micro": 0.0,
+            "lrdi": 100.0,
+            "lrqi": 100.0,
+            "direct_escaped": [],
+            "quasi_escaped": []
+          }
+        },
+        {
+          "iteration": 1,
+          "case_id": "B3",
+          "performance": {
+            "tps": 14.24,
+            "time_s": 42.29
+          },
+          "quality": {
+            "true_positives": 4,
+            "false_negatives": 10,
+            "total_entities": 14,
+            "placeholders_found": 16,
+            "precision": 0.25,
+            "recall": 0.2857,
+            "f1_micro": 0.2667,
+            "lrdi": 0.0,
+            "lrqi": 33.33,
+            "direct_escaped": [
+              {
+                "category": "NAME_PATIENT",
+                "value": "Miguel Ángel Rodríguez Techera"
+              },
+              {
+                "category": "ID_CI",
+                "value": "1.234.567-8"
+              },
+              {
+                "category": "NAME_DOCTOR",
+                "value": "Martín González Etchegoyen"
+              },
+              {
+                "category": "NAME_DOCTOR",
+                "value": "Federico Álvarez Pérez"
+              },
+              {
+                "category": "NAME_DOCTOR",
+                "value": "Gabriela Suárez Núñez"
+              },
+              {
+                "category": "NAME_NURSE",
+                "value": "Marcela Fernández"
+              },
+              {
+                "category": "NAME_FAMILY",
+                "value": "Claudia Martínez"
+              },
+              {
+                "category": "CONTACT_PHONE",
+                "value": "099-777-888"
+              }
+            ],
+            "quasi_escaped": [
+              {
+                "category": "DATE_PROCEDURE",
+                "value": "26/11/2024"
+              },
+              {
+                "category": "LOCATION_HOSPITAL",
+                "value": "HOSPITAL DE CLÍNICAS"
+              }
+            ]
+          }
+        },
+        {
+          "iteration": 1,
+          "case_id": "C1",
+          "performance": {
+            "tps": 14.2,
+            "time_s": 43.09
+          },
+          "quality": {
+            "true_positives": 19,
+            "false_negatives": 0,
+            "total_entities": 19,
+            "placeholders_found": 0,
+            "precision": 0,
+            "recall": 1.0,
+            "f1_micro": 0.0,
+            "lrdi": 100.0,
+            "lrqi": 100.0,
+            "direct_escaped": [],
+            "quasi_escaped": []
+          }
+        },
+        {
+          "iteration": 1,
+          "case_id": "C2",
+          "performance": {
+            "tps": 14.2,
+            "time_s": 44.08
+          },
+          "quality": {
+            "true_positives": 9,
+            "false_negatives": 12,
+            "total_entities": 21,
+            "placeholders_found": 0,
+            "precision": 0,
+            "recall": 0.4286,
+            "f1_micro": 0.0,
+            "lrdi": 0.0,
+            "lrqi": 60.0,
+            "direct_escaped": [
+              {
+                "category": "ID_MEDICAL_RECORD",
+                "value": "CTI-2024-8901"
+              },
+              {
+                "category": "NAME_DOCTOR",
+                "value": "Santiago García Núñez"
+              },
+              {
+                "category": "NAME_DOCTOR",
+                "value": "María Belén Fernández"
+              },
+              {
+                "category": "NAME_NURSE",
+                "value": "Carolina Suárez"
+              },
+              {
+                "category": "NAME_DOCTOR",
+                "value": "Rodríguez Pérez"
+              },
+              {
+                "category": "NAME_DOCTOR",
+                "value": "Patricia López"
+              },
+              {
+                "category": "NAME_DOCTOR",
+                "value": "Mauricio Álvarez"
+              },
+              {
+                "category": "NAME_DOCTOR",
+                "value": "Valeria González"
+              },
+              {
+                "category": "NAME_NURSE",
+                "value": "Patricia Núñez Olivera"
+              },
+              {
+                "category": "ID_CI",
+                "value": "2.567.890-1"
+              }
+            ],
+            "quasi_escaped": [
+              {
+                "category": "LOCATION_STREET",
+                "value": "Av. Gral. Flores 7890, La Teja"
+              },
+              {
+                "category": "LOCATION_CITY",
+                "value": "Montevideo"
+              }
+            ]
+          }
+        }
+      ],
+      "summary": {
+        "precision_mean": 0.0661,
+        "recall_mean": 0.4406,
+        "f1_micro_mean": 0.0736,
+        "lrdi_mean": 20.0,
+        "lrqi_mean": 51.71,
+        "total_direct_escaped": 55,
+        "privacy_risk": "ALTO",
+        "total_evaluations": 10
+      }
+    }
+  }
+}

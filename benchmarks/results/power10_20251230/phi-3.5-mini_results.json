@@ -1,0 +1,189 @@
+{
+  "experimento": "benchmark_power10_v3",
+  "timestamp": "2025-12-30T22:05:52.821332",
+  "hardware": {
+    "plataforma": "IBM Power10",
+    "arquitectura": "ppc64le",
+    "compilacion": "llama.cpp con -mcpu=power10"
+  },
+  "modelo": {
+    "nombre": "Phi-3.5-mini-instruct",
+    "cuantizacion": "Q4_K_M",
+    "archivo": "qwen2.5-1.5b-instruct-q4_k_m.gguf"
+  },
+  "resultados": [
+    {
+      "prompt": "baseline",
+      "caso": "A1",
+      "caso_nombre": "Emergencia Cardiología",
+      "tps_gen": 9.22506813865954,
+      "tps_prompt": 12.239248242462038,
+      "tokens_gen": 300,
+      "tokens_prompt": 203,
+      "tiempo_gen_ms": 32520.085,
+      "tiempo_prompt_ms": 16585.986
+    },
+    {
+      "prompt": "baseline",
+      "caso": "A2",
+      "caso_nombre": "Consulta Oncología",
+      "tps_gen": 9.284304817715517,
+      "tps_prompt": 21.890367985505208,
+      "tokens_gen": 300,
+      "tokens_prompt": 182,
+      "tiempo_gen_ms": 32312.597,
+      "tiempo_prompt_ms": 8314.159
+    },
+    {
+      "prompt": "baseline",
+      "caso": "A3",
+      "caso_nombre": "Evolución CTI",
+      "tps_gen": 9.246555191193544,
+      "tps_prompt": 20.892836420132642,
+      "tokens_gen": 297,
+      "tokens_prompt": 193,
+      "tiempo_gen_ms": 32120.07,
+      "tiempo_prompt_ms": 9237.616
+    },
+    {
+      "prompt": "baseline",
+      "caso": "A4",
+      "caso_nombre": "Alta Cirugía",
+      "tps_gen": 9.27362643780672,
+      "tps_prompt": 20.813608237468248,
+      "tokens_gen": 282,
+      "tokens_prompt": 194,
+      "tiempo_gen_ms": 30408.816,
+      "tiempo_prompt_ms": 9320.825
+    },
+    {
+      "prompt": "baseline",
+      "caso": "A5",
+      "caso_nombre": "Interconsulta Neurología",
+      "tps_gen": 9.308494876573391,
+      "tps_prompt": 22.675804540784508,
+      "tokens_gen": 300,
+      "tokens_prompt": 175,
+      "tiempo_gen_ms": 32228.626,
+      "tiempo_prompt_ms": 7717.477
+    },
+    {
+      "prompt": "detailed",
+      "caso": "A1",
+      "caso_nombre": "Emergencia Cardiología",
+      "tps_gen": 8.91201126715878,
+      "tps_prompt": 12.106656553172199,
+      "tokens_gen": 300,
+      "tokens_prompt": 282,
+      "tiempo_gen_ms": 33662.435,
+      "tiempo_prompt_ms": 23292.971
+    },
+    {
+      "prompt": "detailed",
+      "caso": "A2",
+      "caso_nombre": "Consulta Oncología",
+      "tps_gen": 8.962949943448267,
+      "tps_prompt": 30.815141970435885,
+      "tokens_gen": 300,
+      "tokens_prompt": 261,
+      "tiempo_gen_ms": 33471.123,
+      "tiempo_prompt_ms": 8469.862
+    },
+    {
+      "prompt": "detailed",
+      "caso": "A3",
+      "caso_nombre": "Evolución CTI",
+      "tps_gen": 8.916686758934164,
+      "tps_prompt": 28.953927594955843,
+      "tokens_gen": 300,
+      "tokens_prompt": 272,
+      "tiempo_gen_ms": 33644.784,
+      "tiempo_prompt_ms": 9394.235
+    },
+    {
+      "prompt": "detailed",
+      "caso": "A4",
+      "caso_nombre": "Alta Cirugía",
+      "tps_gen": 8.926660963720533,
+      "tps_prompt": 28.692950951239645,
+      "tokens_gen": 300,
+      "tokens_prompt": 273,
+      "tiempo_gen_ms": 33607.191,
+      "tiempo_prompt_ms": 9514.532
+    },
+    {
+      "prompt": "detailed",
+      "caso": "A5",
+      "caso_nombre": "Interconsulta Neurología",
+      "tps_gen": 8.98783738881034,
+      "tps_prompt": 32.24013876968077,
+      "tokens_gen": 300,
+      "tokens_prompt": 254,
+      "tiempo_gen_ms": 33378.441,
+      "tiempo_prompt_ms": 7878.378
+    },
+    {
+      "prompt": "few_shot",
+      "caso": "A1",
+      "caso_nombre": "Emergencia Cardiología",
+      "tps_gen": 9.17847770809118,
+      "tps_prompt": 12.195743066404114,
+      "tokens_gen": 295,
+      "tokens_prompt": 193,
+      "tiempo_gen_ms": 32140.406,
+      "tiempo_prompt_ms": 15825.194
+    },
+    {
+      "prompt": "few_shot",
+      "caso": "A2",
+      "caso_nombre": "Consulta Oncología",
+      "tps_gen": 9.243834608818176,
+      "tps_prompt": 20.633545826865355,
+      "tokens_gen": 300,
+      "tokens_prompt": 172,
+      "tiempo_gen_ms": 32454.064,
+      "tiempo_prompt_ms": 8335.94
+    },
+    {
+      "prompt": "few_shot",
+      "caso": "A3",
+      "caso_nombre": "Evolución CTI",
+      "tps_gen": 9.22144308883425,
+      "tps_prompt": 19.798777344356456,
+      "tokens_gen": 300,
+      "tokens_prompt": 183,
+      "tiempo_gen_ms": 32532.869,
+      "tiempo_prompt_ms": 9242.995
+    },
+    {
+      "prompt": "few_shot",
+      "caso": "A4",
+      "caso_nombre": "Alta Cirugía",
+      "tps_gen": 9.245415289361192,
+      "tps_prompt": 19.700992469616843,
+      "tokens_gen": 280,
+      "tokens_prompt": 184,
+      "tiempo_gen_ms": 30285.281,
+      "tiempo_prompt_ms": 9339.631
+    },
+    {
+      "prompt": "few_shot",
+      "caso": "A5",
+      "caso_nombre": "Interconsulta Neurología",
+      "tps_gen": 9.26954588031255,
+      "tps_prompt": 21.28390994455219,
+      "tokens_gen": 300,
+      "tokens_prompt": 165,
+      "tiempo_gen_ms": 32364.045,
+      "tiempo_prompt_ms": 7752.335
+    }
+  ],
+  "resumen": {
+    "tps_generacion_promedio": 9.146860823962543,
+    "tps_generacion_std": 0.154366449515377,
+    "tps_generacion_min": 8.91201126715878,
+    "tps_generacion_max": 9.308494876573391,
+    "tps_prompt_promedio": 21.66224332784213,
+    "total_pruebas": 15
+  }
+}
