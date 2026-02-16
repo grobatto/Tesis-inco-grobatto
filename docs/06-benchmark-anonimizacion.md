@@ -138,57 +138,59 @@ payload = {
 | **Recall** | PHI no omitido | >90% |
 | **Preservación** | Datos clínicos intactos | 100% |
 
-## Resultados Benchmark (30 Nov 2025)
+## Resultados Finales del Experimento (Dic 2025)
 
-### 5 Modelos Evaluados
+### 6 Modelos Evaluados (Tarea de Anonimización)
 
 | Modelo | Puerto | TPS | Calidad | Resultado |
 |--------|--------|-----|---------|-----------|
-| **Phi-3.5-mini** | 8093 | 16.8 | ★★★★★ | **RECOMENDADO** - Anonimizó todo correctamente |
-| **BioMistral-7B** | 8092 | 13.1 | ★★★★☆ | Buena - Anonimizó encabezado |
-| **Gemma-2-9B** | 8094 | 9.6 | ★★★☆☆ | Parcial - Dejó nombres de médicos |
-| Llama-3.1-8B | 8091 | 13.2 | ❌ | Rechazó: guardrails |
-| Llama-3.2-3B | 8095 | 22.4 | ❌ | Rechazó: guardrails |
+| **Llama-3.1-8B** | 8094 | 4.34 | ★★★★★ | **BEST FIT** - 100% Recall, 100% LRDI con Baseline |
+| **Gemma-2-9B** | 8095 | 3.1 | ★★★★☆ | 96.67% Recall, 100% LRDI con Structured Output |
+| **Mistral-7B** | 8088 | 4.6 | ★★★★☆ | 96.67% Recall, 100% LRDI con Structured Output |
+| **Phi-3.5-mini** | 8093 | 6.1 | ★★★☆☆ | 73.33% Recall, LRDI 78.6% |
+| **Qwen2.5-1.5B** | 8089 | 13.3 | ★★☆☆☆ | 73.33% Recall, LRDI 70.2% |
+| Qwen2.5-14B | 8096 | — | ❌ | Excluido: latencia >6 minutos por documento |
 
 ### Respuestas Detalladas
 
-#### Phi-3.5-mini (MEJOR)
+#### Llama-3.1-8B (BEST FIT)
+
+Llama-3.1-8B alcanzó **100% Recall** y **100% LRDI** con el prompt más simple (Baseline).
+Es el único modelo que logra "Fuga Cero" sin necesidad de prompts complejos.
+Procesamiento de historias clínicas estándar en menos de 2 minutos (4.34 TPS).
 
 ```
 Nombre: [NOMBRE]
 Documento: [CI]
-Ciudad: [UBICACION]
-Direccion: [DIRECCION]
+Ciudad: [UBICACIÓN]
+Dirección: [DIRECCIÓN]
+Registro: [REGISTRO]
 
-Evolucion medica:
+Evolución médica:
 Paciente bajo dexmedetomidina + quetiapina + BZD, vigil.
-Responsables: Dr. Sanguinetti, Dras. Cristancho, Ramirez.
+Responsables: Dr. [NOMBRE], Dras. [NOMBRE], [NOMBRE].
 AE. [NOMBRE], LE. [NOMBRE]
 ```
 
-✅ Detectó nombre del paciente
-✅ Detectó CI
-✅ Detectó ciudad y dirección
-✅ Detectó nombres de enfermeros
-✅ Preservó datos clínicos y nombres de doctores con título
+✅ Detectó TODOS los nombres (pacientes, médicos, enfermeros)
+✅ Detectó CI, direcciones, ciudades, registros
+✅ Preservó datos clínicos intactos
+✅ LRDI 100% (cero fuga de identificadores directos)
 
-#### Llama-3.1/3.2 (Rechazados)
+#### Gemma-2-9B y Mistral-7B (Excelentes)
 
-```
-Lo siento, pero no puedo anonimizar información de personas reales.
-```
+Ambos modelos alcanzan 96.67% Recall y 100% LRDI, pero requieren el prompt `structured_output` para lograrlo. Son alternativas viables cuando se necesita más velocidad que Llama.
 
-Los modelos Llama tienen guardrails estrictos que impiden procesar datos personales, incluso para protegerlos. Esto los hace inadecuados para anonimización clínica.
+### Selección de Modelos - Justificación (Evaluación Final)
 
-### Selección de Modelos - Justificación
-
-| Modelo | Por qué lo incluimos | Fuente |
-|--------|---------------------|--------|
-| **Phi-3.5-mini** | Mejor ratio calidad/tamaño, contexto 128K | [Microsoft](https://huggingface.co/microsoft/Phi-3.5-mini-instruct) |
-| **BioMistral-7B** | Especializado en medicina, evaluado en español | [Paper](https://arxiv.org/abs/2402.10373) |
-| **Gemma-2-9B** | Excelente seguimiento de instrucciones | [Google](https://huggingface.co/google/gemma-2-9b-it) |
-| **Llama-3.1-8B** | 98.2% precisión en benchmarks médicos NEJM | [LLM-Anonymizer](https://ai.nejm.org/doi/full/10.1056/AIdbp2400537) |
-| **Llama-3.2-3B** | Ultra-rápido, comparación edge | [Meta](https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct) |
+| Modelo | Resultado | Justificación | Fuente |
+|--------|-----------|---------------|--------|
+| **Llama-3.1-8B** | **BEST FIT** | 100% Recall, 100% LRDI con Baseline | [Meta](https://huggingface.co/meta-llama/Meta-Llama-3.1-8B-Instruct) |
+| **Gemma-2-9B** | Excelente | 96.67% Recall, 100% LRDI con Structured Output | [Google](https://huggingface.co/google/gemma-2-9b-it) |
+| **Mistral-7B** | Excelente | 96.67% Recall, 100% LRDI con Structured Output | [Mistral AI](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3) |
+| **Phi-3.5-mini** | Aceptable | 73.33% Recall, LRDI 78.6% - LRDI insuficiente | [Microsoft](https://huggingface.co/microsoft/Phi-3.5-mini-instruct) |
+| **Qwen2.5-1.5B** | Insuficiente | 73.33% Recall, LRDI 70.2% - Mayor velocidad pero riesgo de fuga | [Alibaba](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct) |
+| **Qwen2.5-14B** | Excluido | Latencia >6 minutos por documento | [Alibaba](https://huggingface.co/Qwen/Qwen2.5-14B-Instruct) |
 
 ### Ejemplo de Salida Esperada
 
@@ -224,14 +226,16 @@ LE. [NOMBRE]
 
 ## Interpretación de Resultados
 
-### TPS (Tokens Por Segundo)
+### TPS (Tokens Por Segundo) - Tarea de Anonimización
 
 | Rango TPS | Evaluación | Recomendación |
 |-----------|------------|---------------|
-| >20 | Excelente | Óptimo para producción |
-| 15-20 | Bueno | Adecuado |
-| 10-15 | Aceptable | Considerar optimización |
-| <10 | Bajo | Revisar configuración |
+| >10 | Excelente | Óptimo para batch processing |
+| 5-10 | Bueno | Adecuado para producción |
+| 3-5 | Aceptable | Viable para procesos batch |
+| <3 | Bajo | Solo para casos específicos |
+
+> **Nota**: Los TPS de la tarea de anonimización (3-13 TPS) son menores que el benchmark puro de rendimiento (14.98 TPS) debido a la complejidad del prompt y la longitud de los documentos clínicos.
 
 ### Validación de Anonimización
 
@@ -258,7 +262,7 @@ curl http://localhost:8089/health
 
 - Verificar que se usa `temperature: 0.3`
 - Aumentar `n_predict` si el texto se corta
-- Probar con Llama 3.1 para mejor comprensión médica
+- Usar Llama-3.1-8B con prompt `baseline` para máxima calidad (Best Fit)
 
 ### TPS muy bajo
 

@@ -14,11 +14,13 @@ Este documento presenta los resultados experimentales de la evaluación de rendi
 
 | Hallazgo | Resultado |
 |----------|-----------|
-| **MMA vs Sin-MMA** | **>30x speedup** - Sin MMA: TIMEOUT; Con MMA: ~10-15 TPS |
-| **Rendimiento Qwen2.5-1.5B** | **14.98 TPS** (desv. std: 0.10) |
-| **Rendimiento Phi-3.5-mini (3.8B)** | **9.15 TPS** |
-| **Rendimiento Mistral-7B** | **2.45 TPS** |
-| **Mejor prompt** | `structured_output` - **Recall 97.22%**, **LRDI 100%** |
+| **MMA vs Sin-MMA** | **>30x speedup** - Sin MMA: TIMEOUT (>300s); Con MMA: 3-13 TPS |
+| **Rendimiento Qwen2.5-1.5B** | **13.3 TPS** (tarea anonimización) / **14.98 TPS** (benchmark puro) |
+| **Rendimiento Phi-3.5-mini (3.8B)** | **6.1 TPS** |
+| **Rendimiento Mistral-7B (7.0B)** | **4.6 TPS** |
+| **Rendimiento Llama-3.1-8B (8.0B)** | **4.34 TPS** — **BEST FIT** |
+| **Rendimiento Gemma-2-9B (9.0B)** | **3.1 TPS** |
+| **Best Fit** | Llama-3.1-8B con `baseline` - **Recall 100%**, **LRDI 100%** |
 | **Estabilidad** | CV < 1% en todas las pruebas |
 
 **Conclusión clave:** Los aceleradores MMA no son una optimización marginal, sino un **requisito operativo** para inferencia LLM viable en Power10. La arquitectura on-premises proporciona una alternativa viable a GPUs cloud para procesamiento de datos sensibles (PHI).
@@ -50,7 +52,7 @@ El protocolo experimental se basa en las metodologías establecidas en:
 | **Procesador** | IBM Power10 |
 | **Arquitectura** | ppc64le |
 | **Cores** | 12 |
-| **RAM** | 30 GB |
+| **RAM** | 28 GB |
 | **Sistema Operativo** | Red Hat Enterprise Linux 9.4 |
 | **Aceleración** | MMA (Matrix Math Accelerator) habilitado |
 
@@ -222,26 +224,30 @@ Run 3: TIMEOUT (>300s)
 
 ### 3.5 Experimento 5: Evaluación Multi-Modelo
 
-Se evaluaron 3 modelos de diferentes tamaños para caracterizar el escalado de rendimiento:
+Se evaluaron 5 modelos con resultados viables (Qwen2.5-14B excluido por latencia >6 min):
 
-| Modelo | Parámetros | Tamaño GGUF | TPS Generación | Observaciones |
-|--------|------------|-------------|----------------|---------------|
-| **Qwen2.5-1.5B-Instruct** | 1.5B | 1.1 GB | **14.98 TPS** | Mejor balance velocidad/calidad |
-| **Phi-3.5-mini-instruct** | 3.8B | 2.3 GB | **9.15 TPS** | ~2.5x más grande, ~61% del TPS |
-| **Mistral-7B-Instruct** | 7B | 4.3 GB | **2.45 TPS** | ~4.7x más grande, ~16% del TPS |
+| Modelo | Parámetros | Tamaño GGUF | TPS | Recall | LRDI | Mejor Prompt |
+|--------|------------|-------------|-----|--------|------|--------------|
+| **Qwen2.5-1.5B-Instruct** | 1.5B | 1.1 GB | **13.3** | 73.33% | 70.2% | few_shot |
+| **Phi-3.5-mini-instruct** | 3.8B | 2.3 GB | **6.1** | 73.33% | 78.6% | baseline |
+| **Mistral-7B-Instruct** | 7.0B | 4.3 GB | **4.6** | 96.67% | 100% | structured_output |
+| **Llama-3.1-8B-Instruct** | 8.0B | 4.7 GB | **4.34** | **100%** | **100%** | **baseline** ← BEST FIT |
+| **Gemma-2-9B-Instruct** | 9.0B | 5.4 GB | **3.1** | 96.67% | 100% | structured_output |
 
-#### Análisis de Escalado
+#### Análisis de Escalado (TPS en Tarea de Anonimización)
 
 ```
-Qwen2.5-1.5B:   ████████████████████████████████████████████████████████ 14.98 TPS
-Phi-3.5-mini:   ██████████████████████████████████ 9.15 TPS
-Mistral-7B:     █████████ 2.45 TPS
+Qwen2.5-1.5B:   ████████████████████████████████████████████████████████ 13.3 TPS
+Phi-3.5-mini:   █████████████████████████ 6.1 TPS
+Mistral-7B:     ███████████████████ 4.6 TPS
+Llama-3.1-8B:   ██████████████████ 4.34 TPS ← BEST FIT
+Gemma-2-9B:     █████████████ 3.1 TPS
 ```
 
 **Observaciones:**
-1. El escalado es sublineal pero predecible
-2. Modelos más grandes (7B+) siguen siendo viables para batch processing
-3. Para latencia interactiva, modelos de 1.5B-3.8B son preferibles
+1. **Llama-3.1-8B es el BEST FIT**: único modelo con 100% Recall y 100% LRDI usando el prompt más simple (baseline)
+2. Modelos más rápidos (Qwen, Phi) tienen LRDI insuficiente (<80%) para cumplimiento normativo
+3. Gemma-2-9B y Mistral-7B son alternativas viables pero requieren prompt structured_output
 
 ---
 
@@ -279,10 +285,13 @@ El objetivo central era demostrar que los aceleradores MMA de IBM Power10 repres
 
 ### 5.2 Calidad de Anonimización
 
-Usando el prompt **structured_output**:
-- Recall de 97.22% indica detección casi completa de entidades PHI
-- LRDI de 100% garantiza protección total de identificadores directos
-- Comparable a resultados del paper arXiv:2406.00062 (aunque con modelo más pequeño)
+**Best Fit: Llama-3.1-8B con prompt baseline**:
+- Recall de **100%** indica detección completa de entidades PHI
+- LRDI de **100%** garantiza protección total de identificadores directos
+- Único modelo que logra "Fuga Cero" con el prompt más simple
+- Comparable a resultados del paper arXiv:2406.00062
+
+**Alternativas viables**: Gemma-2-9B y Mistral-7B alcanzan 100% LRDI pero requieren prompt `structured_output`.
 
 ### 5.3 Limitaciones
 
@@ -292,11 +301,11 @@ Usando el prompt **structured_output**:
 
 ### 5.4 Trabajo Futuro
 
-1. ~~Evaluar modelos más grandes: Mistral-Nemo-12B, Llama-3.1-8B~~ ✅ COMPLETADO (Phi-3.5, Mistral-7B)
+1. ~~Evaluar modelos de diferentes tamaños~~ ✅ COMPLETADO (5 modelos: Qwen-1.5B, Phi-3.5, Mistral-7B, Llama-3.1-8B, Gemma-2-9B)
 2. ~~Comparativa MMA vs sin-MMA para cuantificar speedup exacto~~ ✅ COMPLETADO (>30x speedup)
-3. Validación con dataset clínico real (con IRB apropiado)
-4. Integración con flujo de trabajo hospitalario
-5. Evaluación de modelos especializados en dominio médico (BioMistral)
+3. ~~Identificar Best Fit para anonimización clínica~~ ✅ COMPLETADO (Llama-3.1-8B)
+4. Validación con dataset clínico real (con IRB apropiado)
+5. Integración con flujo de trabajo hospitalario
 
 ---
 
@@ -304,16 +313,21 @@ Usando el prompt **structured_output**:
 
 1. **MMA ES CRÍTICO (NO OPCIONAL)**: La comparativa MMA vs sin-MMA demuestra que sin el acelerador, el rendimiento cae a niveles inutilizables (>300s por request vs ~10s). **Speedup >30x**.
 
-2. **MMA Validado**: Los aceleradores MMA de IBM Power10 proporcionan rendimiento cuantificable (10-15 TPS) para inferencia LLM on-premise.
+2. **MMA Validado**: Los aceleradores MMA de IBM Power10 proporcionan rendimiento cuantificable (3-13 TPS según modelo) para inferencia LLM on-premise.
 
 3. **Rendimiento Estable**: Desviación estándar < 1% en todas las pruebas, ideal para procesos batch predecibles.
 
-4. **Escalado Multi-Modelo**:
-   - Qwen2.5-1.5B: 14.98 TPS (interactivo viable)
-   - Phi-3.5-mini (3.8B): 9.15 TPS (batch viable)
-   - Mistral-7B: 2.45 TPS (solo batch)
+4. **BEST FIT - Llama-3.1-8B**:
+   - Único modelo con **100% Recall** y **100% LRDI** usando prompt `baseline`
+   - Logra "Fuga Cero" de identificadores directos sin prompts complejos
+   - 4.34 TPS es suficiente para procesamiento batch de historias clínicas
 
-5. **Prompt Óptimo**: El prompt `structured_output` logra Recall 97.22% y LRDI 100%, protegiendo todos los identificadores directos.
+5. **Escalado Multi-Modelo (TPS tarea anonimización)**:
+   - Qwen2.5-1.5B: 13.3 TPS (más rápido, pero LRDI 70.2% insuficiente)
+   - Phi-3.5-mini: 6.1 TPS (LRDI 78.6% insuficiente)
+   - Mistral-7B: 4.6 TPS (100% LRDI con structured_output)
+   - **Llama-3.1-8B: 4.34 TPS (100% LRDI con baseline) ← BEST FIT**
+   - Gemma-2-9B: 3.1 TPS (100% LRDI con structured_output)
 
 6. **Viabilidad On-Premise**: Power10 es una alternativa viable a GPUs cloud para casos sensibles a la privacidad, eliminando riesgos de fuga de datos PHI.
 

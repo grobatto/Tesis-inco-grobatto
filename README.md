@@ -124,49 +124,47 @@ curl -X POST http://localhost:8089/completion \
 
 ---
 
-## Modelos Disponibles
+## Modelos Evaluados (Resultados Finales - Tarea de Anonimización)
 
-### Modelos Grandes (Recomendados para Producción)
+### Ranking de Modelos
 
-| Modelo | Tamaño | Puerto | Fabricante | TPS | Calidad |
-|--------|--------|--------|------------|-----|---------|
-| **Mistral-Nemo-12B** | 7.1 GB | 8097 | Mistral AI | 9.2 | ★★★★★ **MEJOR** |
-| **Qwen2.5-14B** | 8.6 GB | 8096 | Alibaba | 6.5 | ★★★★☆ |
+| Modelo | Tamaño | TPS | Recall | LRDI | Resultado |
+|--------|--------|-----|--------|------|-----------|
+| **Llama-3.1-8B** | 4.7 GB | 4.34 | 100% | 100% | **BEST FIT** |
+| **Gemma-2-9B** | 5.4 GB | 3.1 | 96.67% | 100% | Excelente |
+| **Mistral-7B** | 4.1 GB | 4.6 | 96.67% | 100% | Excelente |
+| **Phi-3.5-mini** | 2.3 GB | 6.1 | 73.33% | 78.6% | Aceptable |
+| **Qwen2.5-1.5B** | 1.1 GB | 13.3 | 73.33% | 70.2% | Insuficiente LRDI |
+| Qwen2.5-14B | 8.6 GB | — | — | — | Excluido (>6 min latencia) |
 
-### Modelos Medianos (Balance Velocidad/Calidad)
+> **Best Fit**: Llama-3.1-8B logra 100% Recall y 100% LRDI con el prompt más simple (Baseline), garantizando "Fuga Cero" de identificadores directos.
 
-| Modelo | Tamaño | Puerto | Fabricante | TPS | Calidad |
-|--------|--------|--------|------------|-----|---------|
-| **Phi-3.5-mini** | 2.3 GB | 8093 | Microsoft | 16.8 | ★★★★★ |
-| **BioMistral-7B** | 4.1 GB | 8092 | CNRS | 13.1 | ★★★★☆ |
-| **Gemma-2-9B** | 5.4 GB | 8094 | Google | 9.6 | ★★★☆☆ |
-
-### Por qué estos modelos
+### Por qué estos modelos (Evaluación Final)
 
 | Modelo | Justificación | Referencia |
 |--------|---------------|------------|
-| **Mistral-Nemo-12B** | Mejor multilingüe de Mistral, colaboración con NVIDIA, Apache 2.0 | [Mistral AI](https://mistral.ai/news/mistral-nemo) |
-| **Qwen2.5-14B** | Mejoras en seguimiento de instrucciones y JSON, 29+ idiomas | [Qwen](https://huggingface.co/Qwen/Qwen2.5-14B-Instruct) |
-| **Phi-3.5-mini** | Supera modelos 2x más grandes, contexto 128K | [Microsoft](https://huggingface.co/microsoft/Phi-3.5-mini-instruct) |
-| **BioMistral-7B** | Pre-entrenado en PubMed, +18% vs Meditron, evaluado en español | [Paper](https://arxiv.org/abs/2402.10373) |
+| **Llama-3.1-8B** | **BEST FIT** - 100% Recall, 100% LRDI con prompt Baseline | [Meta](https://huggingface.co/meta-llama/Meta-Llama-3.1-8B-Instruct) |
+| **Gemma-2-9B** | 96.67% Recall, 100% LRDI con Structured Output | [Google](https://huggingface.co/google/gemma-2-9b-it) |
+| **Mistral-7B** | 96.67% Recall, 100% LRDI con Structured Output | [Mistral AI](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3) |
+| **Phi-3.5-mini** | Mayor velocidad pero LRDI 78.6% (insuficiente para regulado) | [Microsoft](https://huggingface.co/microsoft/Phi-3.5-mini-instruct) |
 
 ### URLs de Descarga (Hugging Face - GGUF Q4_K_M)
 
 ```bash
-# Mistral-Nemo-12B (Mistral AI) - MEJOR CALIDAD
-https://huggingface.co/bartowski/Mistral-Nemo-Instruct-2407-GGUF/resolve/main/Mistral-Nemo-Instruct-2407-Q4_K_M.gguf
+# Llama-3.1-8B (Meta) - BEST FIT
+https://huggingface.co/bartowski/Meta-Llama-3.1-8B-Instruct-GGUF/resolve/main/Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf
 
-# Qwen2.5-14B (Alibaba)
-https://huggingface.co/bartowski/Qwen2.5-14B-Instruct-GGUF/resolve/main/Qwen2.5-14B-Instruct-Q4_K_M.gguf
+# Gemma 2 9B (Google) - Excelente
+https://huggingface.co/bartowski/gemma-2-9b-it-GGUF/resolve/main/gemma-2-9b-it-Q4_K_M.gguf
 
-# Phi-3.5 mini (Microsoft) - MEJOR VELOCIDAD
+# Mistral-7B (Mistral AI) - Excelente
+https://huggingface.co/bartowski/Mistral-7B-Instruct-v0.3-GGUF/resolve/main/Mistral-7B-Instruct-v0.3-Q4_K_M.gguf
+
+# Phi-3.5 mini (Microsoft) - Mayor velocidad
 https://huggingface.co/bartowski/Phi-3.5-mini-instruct-GGUF/resolve/main/Phi-3.5-mini-instruct-Q4_K_M.gguf
 
-# BioMistral-7B (Médico)
-https://huggingface.co/BioMistral/BioMistral-7B-GGUF/resolve/main/ggml-model-Q4_K_M.gguf
-
-# Gemma 2 9B (Google)
-https://huggingface.co/bartowski/gemma-2-9b-it-GGUF/resolve/main/gemma-2-9b-it-Q4_K_M.gguf
+# Qwen2.5-1.5B (Alibaba) - Más rápido pero LRDI insuficiente
+https://huggingface.co/bartowski/Qwen2.5-1.5B-Instruct-GGUF/resolve/main/Qwen2.5-1.5B-Instruct-Q4_K_M.gguf
 ```
 
 ---
@@ -203,39 +201,38 @@ https://huggingface.co/bartowski/gemma-2-9b-it-GGUF/resolve/main/gemma-2-9b-it-Q
 
 ## Benchmarks
 
-### Resultados de Anonimización Clínica (30 Nov 2025)
+### Resultados Finales de Anonimización Clínica (Dic 2025)
 
-Evaluación de 7 modelos para anonimización de historiales clínicos en español.
+Evaluación de 6 modelos para anonimización de historiales clínicos en español, usando 10 casos clínicos sintéticos y 8 estrategias de prompting.
 
-#### Modelos Grandes (12B-14B)
+#### Resultados por Modelo (Mejor Prompt)
 
-| Modelo | TPS | Calidad | Resultado |
-|--------|-----|---------|-----------|
-| **Mistral-Nemo-12B** | 9.2 | ★★★★★ | **MEJOR** - Anonimizó TODO incluyendo doctores y enfermeros |
-| **Qwen2.5-14B** | 6.5 | ★★★★☆ | Anonimizó encabezado, dejó nombres de médicos |
+| Modelo | TPS | Recall | LRDI | Mejor Prompt | Resultado |
+|--------|-----|--------|------|--------------|-----------|
+| **Llama-3.1-8B** | 4.34 | 100% | 100% | Baseline | **BEST FIT** |
+| **Gemma-2-9B** | 3.1 | 96.67% | 100% | Structured Output | Excelente |
+| **Mistral-7B** | 4.6 | 96.67% | 100% | Structured Output | Excelente |
+| **Phi-3.5-mini** | 6.1 | 73.33% | 78.6% | Baseline | Aceptable |
+| **Qwen2.5-1.5B** | 13.3 | 73.33% | 70.2% | Few-Shot | Insuficiente |
 
-#### Modelos Medianos (3B-9B)
-
-| Modelo | TPS | Calidad | Resultado |
-|--------|-----|---------|-----------|
-| **Phi-3.5-mini** | 16.8 | ★★★★★ | Excelente - Anonimizó todo correctamente |
-| **BioMistral-7B** | 13.1 | ★★★★☆ | Buena - Anonimizó encabezado |
-| **Gemma-2-9B** | 9.6 | ★★★☆☆ | Parcial - Dejó nombres de médicos |
+> **LRDI** = Levenshtein Recall para Identificadores Directos (100% = cero fuga)
 
 ### Recomendaciones
 
 | Caso de Uso | Modelo Recomendado | Por qué |
 |-------------|-------------------|---------|
-| **Máxima calidad** | Mistral-Nemo-12B | Detecta TODOS los PHI incluyendo personal médico |
-| **Balance velocidad/calidad** | Phi-3.5-mini | 16.8 TPS con excelente calidad, solo 2.3 GB |
-| **Dominio médico** | BioMistral-7B | Especializado en PubMed, evaluado en español |
+| **Máxima seguridad (regulado)** | Llama-3.1-8B | 100% Recall, 100% LRDI con Baseline |
+| **Máxima velocidad** | Qwen2.5-1.5B | 13.3 TPS, pero LRDI insuficiente (70.2%) |
+| **Balance calidad/formato** | Gemma-2-9B / Mistral-7B | 96.67% Recall, 100% LRDI con Structured Output |
 
-### Ejemplo: Mistral-Nemo-12B (Mejor resultado)
+### Ejemplo: Llama-3.1-8B (Best Fit)
 
 ```
 Entrada: Dr. Sanguinetti, Dras. Cristancho, Ramirez. AE. M. Brown, LE. J. Bremmerman
 Salida:  Dr. [NOMBRE], Dras. [NOMBRE], [NOMBRE]. AE. [NOMBRE], LE. [NOMBRE]
 ```
+
+✅ 100% de identificadores directos protegidos con el prompt más simple.
 
 Ver documentación completa: [06-benchmark-anonimizacion.md](docs/06-benchmark-anonimizacion.md)
 

@@ -26,9 +26,9 @@ IBM Power Virtual Server (PowerVS) es una oferta de Infrastructure as a Service 
 | **Región** | Dallas (DAL) o la más cercana |
 | **Tipo de Máquina** | s922 (POWER10) |
 | **Procesadores** | 2-4 cores |
-| **Memoria** | 28-32 GB |
+| **Memoria** | 28 GB |
 | **Almacenamiento** | 120 GB SSD |
-| **Sistema Operativo** | CentOS Stream 9 |
+| **Sistema Operativo** | Red Hat Enterprise Linux 9.4 |
 
 ### 1.3 Configurar Red
 

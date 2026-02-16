@@ -3,6 +3,8 @@
 **Servidor:** IBM Power Virtual Server (POWER10)
 **Caso de prueba:** Historia clínica Olaf Rasmusen
 
+> ⚠️ **NOTA**: Estos son resultados **preliminares** del 30/11/2025 con 2 modelos (Qwen2.5-7B, Mistral-7B) y 1 caso de prueba. Los **resultados finales** con 6 modelos, 10 casos clínicos, 8 estrategias de prompting y métricas LRDI/Recall están en [EXPERIMENTO_TESIS.md](../../docs/EXPERIMENTO_TESIS.md). El **Best Fit** identificado es **Llama-3.1-8B** (100% Recall, 100% LRDI).
+
 ## Resumen Ejecutivo
 
 | Modelo | TPS Generación | TPS Prompt | Calidad Anonimización |
